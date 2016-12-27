@@ -1,11 +1,28 @@
 {
   "name": "",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf lib",
+    "lint": "tslint --project .",
+    "build": "npm run clean && tsc",
+    "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__",
+    "release": "npm-run-all -s test clean build lint",
+    "preversion": "npm run release && git checkout master && git merge develop",
+    "postversion": "git push && git push --tags && git checkout develop && git merge master"
   },
   "author": "1ven",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/expect": "^1.13.31",
+    "@types/mocha": "^2.2.35",
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "npm-run-all": "^3.1.2",
+    "rimraf": "^2.5.4",
+    "ts-node": "^1.7.3",
+    "tslint": "^4.2.0",
+    "typescript": "^2.1.4"
+  }
 }
