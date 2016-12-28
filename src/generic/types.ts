@@ -3,8 +3,12 @@ import * as FindifySDK from 'findify-sdk';
 type Store<EE, SE, S> = {
   emit: (event: EE) => Store<EE, SE, S>,
   subscribe: (listener: SubscribeListener<SE, S>) => Unsubscribe,
+  // add `get` method to store, not to state
 };
 
+// create helpers-redux package, which will be converting helpers stores to redux stores
+
+// we don't need `state` here
 type SubscribeListener<E, S> = (event: E, state: S) => void;
 
 type Unsubscribe = () => void;
