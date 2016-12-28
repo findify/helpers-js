@@ -5,7 +5,7 @@ import { combineReducers as combine } from 'redux';
 import { ResponseMeta, RequestMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
 
-function requestDataReducer(state: RequestDataState, action) {
+function requestDataReducer(state: RequestDataState = initialRequestDataState, action) {
   switch (action.type) {
     case actionTypes.INPUT: return assign({}, state, {
       q: action.payload.query,
@@ -19,7 +19,7 @@ function requestDataReducer(state: RequestDataState, action) {
   }
 }
 
-function requestMetaReducer(state: RequestMetaState, action) {
+function requestMetaReducer(state: RequestMetaState = initialRequestMetaState, action) {
   switch (action.type) {
     case actionTypes.REQUEST_TIME_UPDATE: return assign({}, state, {
       lastUpdated: action.payload.time,
@@ -28,14 +28,14 @@ function requestMetaReducer(state: RequestMetaState, action) {
   }
 }
 
-function responseDataReducer(state: ResponseDataState, action) {
+function responseDataReducer(state: ResponseDataState = initialResponseDataState, action) {
   switch (action.type) {
     case actionTypes.RESPONSE_SUCCESS: return assign({}, state, action.payload.response);
     default: return state;
   }
 }
 
-function responseMetaReducer(state: ResponseMeta, action) {
+function responseMetaReducer(state: ResponseMeta = initialResponseMetaState, action) {
   switch (action.type) {
     case actionTypes.REQUEST: return assign({}, state, {
       isFetching: true,
@@ -52,7 +52,14 @@ function responseMetaReducer(state: ResponseMeta, action) {
   }
 }
 
-const rootReducer = combine({
+const initialRequestDataState = {} as any;
+const initialRequestMetaState = {};
+const initialResponseDataState = {} as any;
+const initialResponseMetaState = {
+  isFetching: false,
+};
+
+const rootReducer = combine<State>({
   request: combine({
     data: requestDataReducer,
     meta: requestMetaReducer,
@@ -68,7 +75,7 @@ type RequestMetaState = RequestMeta;
 type ResponseDataState = FindifySDK.AutocompleteResponse;
 type ResponseMetaState = ResponseMeta;
 
-type ReduxState = {
+type State = {
   request: {
     meta?: RequestMetaState,
     data?: RequestDataState,
