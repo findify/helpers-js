@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./__temp__/",
+    "outDir": "./__lib-es6__/",
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es6"
