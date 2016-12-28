@@ -14,39 +14,41 @@ import {
   State as StateGeneric,
 } from '../../generic/types';
 
-import {
-  input,
-  request,
-  responseSuccess,
-  responseFailure,
-} from './actions';
-
 import { eventsNames } from './constants/eventsNames';
+import { input, request } from './actions';
+import { configureReduxStore } from './configureReduxStore';
 
 // avoid names duplication between redux state/store and lib state/store
 
 function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, State> {
   return {
-    emit({ name, payload }: EmitEvent) {
-      // switch (name) {
-      //   case eventsNames.input:
-      //     reduxStore.dispatch(payload.query);
-      //     break;
-      //   case eventsNames.request:
-      //     reduxStore.dispatch(payload.itemsLimit, payload.suggestionsLimit);
-      //     break;
-      // }
+    emit(event: EmitEvent) {
+      switch (event.name) {
+        case eventsNames.input:
+          reduxStore.dispatch(input(
+            (event as InputEvent).payload.query
+          ));
+          break;
+        case eventsNames.request:
+          reduxStore.dispatch(request(
+            (event as RequestEvent).payload.itemsLimit,
+            (event as RequestEvent).payload.suggestionsLimit
+          ));
+          break;
+      }
 
       return this;
     },
-    // subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
-    //   // reduxStore.subscribe(() => {
-    //   //   const action = reduxStore.getState().lastAction;
-    //   // });
-    //   return () => {};
-    // },
+    subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
+      // reduxStore.subscribe(() => {
+      //   const action = reduxStore.getState().lastAction;
+      // });
+      return () => {};
+    },
   };
 }
+
+const reduxStore = configureReduxStore();
 
 type EmitEvent = (
   InputEvent |
