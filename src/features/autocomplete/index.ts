@@ -23,6 +23,9 @@ import { configureReduxStore } from './configureReduxStore';
 function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, State> {
   return {
     emit(event: EmitEvent) {
+      // possible validation errors, regarding not full request should be here
+      // use reduxStore.getState() for this + may be selectors
+
       switch (event.name) {
         case eventsNames.input:
           reduxStore.dispatch(input(
@@ -40,11 +43,13 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
       return this;
     },
     subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
-      // reduxStore.subscribe(() => {
-      //   const action = reduxStore.getState().lastAction;
-      // });
-      return () => {};
+      return reduxStore.subscribe(() => {
+        // const action = reduxStore.getState().lastAction;
+        // don't notify users on any state changes, notify only on their dispatched actions and for example response
+        // as we may have some internal actions, users should not care about this
+      });
     },
+    // get(stateName: StateName) {},
   };
 }
 
