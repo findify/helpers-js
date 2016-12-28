@@ -1,3 +1,5 @@
+import * as FindifySDK from 'findify-sdk';
+
 import { Event } from '../../../generic/types';
 
 type InputEvent = Event<'input', {
@@ -7,6 +9,7 @@ type InputEvent = Event<'input', {
 type RequestEvent = Event<'request', {
   itemsLimit?: number,
   suggestionsLimit?: number,
+  user?: FindifySDK.User,
 }>;
 
 type ResponseSuccessEvent = Event<'responseSuccess', void>;
