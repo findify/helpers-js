@@ -29,6 +29,10 @@
   version "4.14.30"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.30.tgz#24b818a2a1a6c2d56678804f716e2b7eb791114b"
 
+"@types/lodash@^4.14.44":
+  version "4.14.44"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.44.tgz#04585ff0b80d5e434a5f86f15e7964be4f775cba"
+
 "@types/mocha@^2.2.34", "@types/mocha@^2.2.35":
   version "2.2.35"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.35.tgz#dd3150b62a6de73368109308515c3aa86f81f1ec"
@@ -40,6 +44,16 @@
 "@types/qs@^6.2.30":
   version "6.2.30"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.2.30.tgz#139e247511ee3b9be539cdd553c8fdb33c1f624e"
+
+"@types/redux-logger@^2.6.32":
+  version "2.6.32"
+  resolved "https://registry.yarnpkg.com/@types/redux-logger/-/redux-logger-2.6.32.tgz#017cac5dfeef9616f06e41114b7a03a9caa13141"
+  dependencies:
+    "@types/redux" "*"
+
+"@types/redux@*":
+  version "3.6.31"
+  resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.31.tgz#40eafa7575db36b912ce0059b85de98c205b0708"
 
 abab@^1.0.0:
   version "1.0.3"
@@ -305,6 +319,10 @@ debug@2.2.0, debug@^2.1.3, debug@^2.2.0:
   dependencies:
     ms "0.7.1"
 
+deep-diff@0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.4.tgz#aac5c39952236abe5f037a2349060ba01b00ae48"
+
 deep-extend@~0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.1.tgz#efe4113d08085f4e6f9687759810f807469e2253"
@@ -460,32 +478,6 @@ find-up@^1.0.0:
   dependencies:
     path-exists "^2.0.0"
     pinkie-promise "^2.0.0"
-
-"findify-sdk@https://github.com/findify/javascript-sdk.git#1.1.0":
-  version "1.1.0"
-  resolved "https://github.com/findify/javascript-sdk.git#5ee1a2c4d26baec47a5ff099f218c0377155eebb"
-  dependencies:
-    "@types/axios" "^0.9.34"
-    "@types/bluebird" "^3.0.36"
-    "@types/expect" "^1.13.31"
-    "@types/jsdom" "^2.0.29"
-    "@types/lodash" "4.14.30"
-    "@types/mocha" "^2.2.34"
-    "@types/qs" "^6.2.30"
-    axios "^0.15.3"
-    bluebird "^3.4.6"
-    expect "^1.20.2"
-    faux-jax "^5.0.6"
-    jsdom "^9.9.1"
-    jsonp "^0.2.1"
-    lodash "^4.17.2"
-    mocha "^3.2.0"
-    npm-run-all "^3.1.2"
-    qs "^6.3.0"
-    rimraf "^2.5.4"
-    ts-node "^1.7.2"
-    tslint "^4.1.1"
-    typescript "^2.1.4"
 
 "findify-sdk@https://github.com/findify/javascript-sdk.git#1.1.1":
   version "1.1.1"
@@ -953,6 +945,10 @@ lodash-compat@^3.10.2:
   version "3.10.2"
   resolved "https://registry.yarnpkg.com/lodash-compat/-/lodash-compat-3.10.2.tgz#c6940128a9d30f8e902cd2cf99fd0cba4ecfc183"
 
+lodash-es@^4.2.1:
+  version "4.17.3"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.3.tgz#567a08d2f0c91d92b31ce35c5565e1f337fb81db"
+
 lodash._baseassign@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz#8c38a099500f215ad09e59f1722fd0c52bfe0a4e"
@@ -1000,9 +996,15 @@ lodash.keys@^3.0.0:
     lodash.isarguments "^3.0.0"
     lodash.isarray "^3.0.0"
 
-lodash@^4.16.3, lodash@^4.17.2:
+lodash@^4.16.3, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.2.1:
   version "4.17.3"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.3.tgz#557ed7d2a9438cac5fd5a43043ca60cb455e01f7"
+
+loose-envify@^1.1.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.0.tgz#6b26248c42f6d4fa4b0d8542f78edfcde35642a8"
+  dependencies:
+    js-tokens "^2.0.0"
 
 lowercase-keys@^1.0.0:
   version "1.0.0"
@@ -1309,6 +1311,21 @@ readable-stream@^2.0.0, readable-stream@^2.0.2, readable-stream@^2.0.5:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
+redux-logger@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-2.7.4.tgz#891e5d29e7f111d08b5781a237b9965b5858c7f8"
+  dependencies:
+    deep-diff "0.3.4"
+
+redux@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
+  dependencies:
+    lodash "^4.2.1"
+    lodash-es "^4.2.1"
+    loose-envify "^1.1.0"
+    symbol-observable "^1.0.2"
+
 registry-auth-token@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/registry-auth-token/-/registry-auth-token-3.1.0.tgz#997c08256e0c7999837b90e944db39d8a790276b"
@@ -1509,6 +1526,10 @@ supports-color@3.1.2:
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
+
+symbol-observable@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 
 "symbol-tree@>= 3.1.0 < 4.0.0":
   version "3.2.1"
