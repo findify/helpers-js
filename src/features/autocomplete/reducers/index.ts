@@ -61,6 +61,8 @@ const initialResponseMetaState = {
   isFetching: false,
 };
 
+const getRequestData = (state: State) => state.request.data;
+
 const rootReducer = combine<State>({
   request: combine({
     data: requestDataReducer,
@@ -90,4 +92,5 @@ type State = {
 
 export {
   rootReducer,
+  getRequestData,
 }
