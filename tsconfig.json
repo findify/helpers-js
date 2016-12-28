@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "./__lib-es6__/",
     "noImplicitAny": false,
     "module": "commonjs",
-    "target": "es5"
+    "target": "es6"
   },
   "files": [
     "./modules.d.ts",
