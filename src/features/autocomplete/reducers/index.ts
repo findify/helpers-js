@@ -53,7 +53,7 @@ function responseMetaReducer(state: ResponseMeta, action) {
 }
 
 const rootReducer = combine({
-  reqeust: combine({
+  request: combine({
     data: requestDataReducer,
     meta: requestMetaReducer,
   }),
@@ -70,7 +70,7 @@ type ResponseMetaState = ResponseMeta;
 
 type ReduxState = {
   request: {
-    meta: RequestMetaState,
+    meta?: RequestMetaState,
     data?: RequestDataState,
   },
   response: {
