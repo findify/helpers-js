@@ -13,7 +13,7 @@ import {
 describe('autocomplete actions', () => {
   it('should create INPUT action', () => {
     const query = 'test';
-    expect(input(query)).toEqual({
+    expect(input({ query })).toEqual({
       type: actionTypes.INPUT,
       payload: {
         query,
@@ -25,22 +25,26 @@ describe('autocomplete actions', () => {
     const itemsLimit = 1;
     const suggestionsLimit = 2;
     const user = {
-      key: 'someValue'
+      key: 'someValue',
     };
 
-    expect(request(itemsLimit, suggestionsLimit, user as any)).toEqual({
+    expect(request({
+      itemsLimit,
+      suggestionsLimit,
+      user: user as any
+    })).toEqual({
       type: actionTypes.REQUEST,
       payload: {
         itemsLimit,
         suggestionsLimit,
         user,
       },
-    })
+    });
   });
 
   it('should create REQUEST_TIME_UPDATE action', () => {
     const time = 4;
-    expect(requestTimeUpdate(time)).toEqual({
+    expect(requestTimeUpdate({ time })).toEqual({
       type: actionTypes.REQUEST_TIME_UPDATE,
       payload: {
         time,
@@ -50,11 +54,14 @@ describe('autocomplete actions', () => {
 
   it('should handle RESPONSE_SUCCESS action', () => {
     const response = {
-      key: 'someValue'
+      key: 'someValue',
     };
     const receivedAt = 4;
 
-    expect(responseSuccess(response as any, receivedAt)).toEqual({
+    expect(responseSuccess({
+      response: response as any,
+      receivedAt,
+    })).toEqual({
       type: actionTypes.RESPONSE_SUCCESS,
       payload: {
         response,
@@ -65,7 +72,7 @@ describe('autocomplete actions', () => {
 
   it('should handle RESPONSE_FAILURE action', () => {
     const message = 'test message';
-    expect(responseFailure(message)).toEqual({
+    expect(responseFailure({ message })).toEqual({
       type: actionTypes.RESPONSE_FAILURE,
       payload: {
         message,

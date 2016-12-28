@@ -3,7 +3,9 @@ import * as FindifySDK from 'findify-sdk';
 import { actionTypes } from '../constants/actionTypes';
 
 // make arguments as objects and declare types for actons?
-function input(query: string) {
+function input({
+  query,
+}) {
   return {
     type: actionTypes.INPUT,
     payload: {
@@ -12,7 +14,11 @@ function input(query: string) {
   };
 }
 
-function request(itemsLimit?: number, suggestionsLimit?: number, user?: FindifySDK.User) {
+function request({
+  itemsLimit,
+  suggestionsLimit,
+  user,
+}) {
   return {
     type: actionTypes.REQUEST,
     payload: {
@@ -23,7 +29,9 @@ function request(itemsLimit?: number, suggestionsLimit?: number, user?: FindifyS
   };
 }
 
-function requestTimeUpdate(time: number) {
+function requestTimeUpdate({
+  time,
+}) {
   return {
     type: actionTypes.REQUEST_TIME_UPDATE,
     payload: {
@@ -32,7 +40,10 @@ function requestTimeUpdate(time: number) {
   };
 }
 
-function responseSuccess(response: FindifySDK.AutocompleteResponse, receivedAt: number) {
+function responseSuccess({
+  response,
+  receivedAt,
+}) {
   return {
     type: actionTypes.RESPONSE_SUCCESS,
     payload: {
@@ -42,7 +53,9 @@ function responseSuccess(response: FindifySDK.AutocompleteResponse, receivedAt: 
   };
 }
 
-function responseFailure(message: string) {
+function responseFailure({
+  message,
+}) {
   return {
     type: actionTypes.RESPONSE_FAILURE,
     payload: {
