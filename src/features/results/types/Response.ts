@@ -1,8 +1,8 @@
 type ChangeCategoriesFacetResponse = {
-}
+};
 
 type NextPageResponse = {
-}
+};
 
 type Response = (
   ChangeCategoriesFacetResponse |

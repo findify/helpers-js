@@ -1,4 +1,4 @@
-import { Response as ResultsResponse } from '../../../generic/results/interfaces';
+import { Response as ResultsResponse } from '../../results/types';
 
 type Response = ResultsResponse;
 

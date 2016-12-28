@@ -1,4 +1,4 @@
-import { ActionPayload as ResultsActionPayload } from '../../../generic/results/interfaces';
+import { ActionPayload as ResultsActionPayload } from '../../results/types';
 
 type ActionPayload = ResultsActionPayload;
 

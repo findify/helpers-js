@@ -15,7 +15,7 @@ type Suggestions = FindifySDK.AutocompleteSuggestion[];
 type Query = {
   value: string,
   id: string,
-}
+};
 
 export {
   StateResult,

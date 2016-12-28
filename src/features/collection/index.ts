@@ -4,22 +4,22 @@ import {
   Response,
 } from './types';
 
-import { Store } from '../../generic';
+import { Store } from '../../generic/types';
 
-class Collection implements Store<ActionType, ActionPayload> {
-  public dispatch(type, payload) {
-    return this;
-  }
+// class Collection implements Store<ActionType, ActionPayload> {
+//   public dispatch(type, payload) {
+//     return this;
+//   }
 
-  public subscribe(listener) {
-    return () => {};
-  }
+//   public subscribe(listener) {
+//     return () => {};
+//   }
 
-  public submit() {
-    return this;
-  }
-}
+//   public submit() {
+//     return this;
+//   }
+// }
 
-export {
-  Collection,
-}
+// export {
+//   Collection,
+// }

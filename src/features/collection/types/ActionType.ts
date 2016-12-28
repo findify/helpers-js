@@ -1,4 +1,4 @@
-import { ActionType as ResultsActionType } from '../../../generic/results/interfaces';
+import { ActionType as ResultsActionType } from '../../results/types';
 
 type ActionType = ResultsActionType & (
   'fetch'

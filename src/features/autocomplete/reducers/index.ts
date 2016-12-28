@@ -11,4 +11,4 @@ type ReduxState = {
     meta: ResponseMeta,
     data?: FindifySDK.AutocompleteResponse,
   },
-}
+};

@@ -39,14 +39,12 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
 
       return this;
     },
-    subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
-      // reduxStore.subscribe(() => {
-      //   const action = reduxStore.getState().lastAction;
-
-
-      // });
-      return () => {};
-    },
+    // subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
+    //   // reduxStore.subscribe(() => {
+    //   //   const action = reduxStore.getState().lastAction;
+    //   // });
+    //   return () => {};
+    // },
   };
 }
 

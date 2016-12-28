@@ -1,3 +1,3 @@
-export { ActionPayload } from './ActionPayload';
-export { ActionType } from './ActionType';
-export { Response } from './Response';
+export * from './ActionPayload';
+export * from './ActionType';
+export * from './Response';
