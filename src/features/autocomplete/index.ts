@@ -1,3 +1,5 @@
+import * as FindifySDK from 'findify-sdk';
+
 import {
   InputEvent,
   StateName,
@@ -21,6 +23,8 @@ import { configureReduxStore } from './configureReduxStore';
 // avoid names duplication between redux state/store and lib state/store
 
 function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, State> {
+  const sdk = FindifySDK.init(config);
+
   return {
     emit(event: EmitEvent) {
       // possible validation errors, regarding not full request should be here
@@ -28,15 +32,16 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
 
       switch (event.name) {
         case eventsNames.input:
-          reduxStore.dispatch(input(
-            (event as InputEvent).payload.query
-          ));
+          reduxStore.dispatch(input({
+            query: (event as InputEvent).payload.query,
+          }));
           break;
         case eventsNames.request:
-          reduxStore.dispatch(request(
-            (event as RequestEvent).payload.itemsLimit,
-            (event as RequestEvent).payload.suggestionsLimit
-          ));
+          reduxStore.dispatch(request({
+            itemsLimit: (event as RequestEvent).payload.itemsLimit,
+            suggestionsLimit: (event as RequestEvent).payload.suggestionsLimit,
+            user: (event as RequestEvent).payload.user,
+          }, sdk));
           break;
       }
 
