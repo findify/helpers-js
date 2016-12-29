@@ -92,12 +92,21 @@ type ResponseFailurePayload = {
   message: string,
 };
 
+type Action = (
+  InputAction |
+  RequestAction |
+  RequestTimeUpdateAction |
+  ResponseSuccessAction |
+  ResponseFailureAction
+);
+
 export {
   input,
   request,
   requestTimeUpdate,
   responseSuccess,
   responseFailure,
+  Action,
   InputAction,
   RequestAction,
   RequestTimeUpdateAction,
