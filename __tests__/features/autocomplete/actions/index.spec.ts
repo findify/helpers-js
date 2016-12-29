@@ -32,7 +32,7 @@ describe('autocomplete actions', () => {
     expect(request({
       itemsLimit,
       suggestionsLimit,
-      user: user as any
+      user: user as any,
     }, sdkInstance)).toEqual({
       type: actionTypes.REQUEST,
       payload: {
@@ -41,7 +41,7 @@ describe('autocomplete actions', () => {
         user,
       },
       service: {
-        sdk: sdkInstance
+        sdk: sdkInstance,
       },
     });
   });

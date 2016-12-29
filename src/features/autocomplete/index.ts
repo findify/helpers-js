@@ -133,7 +133,7 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
       }
       // !!!
       // don't forget about cases when we need to return value by one name but from different
-      //sources(from request or either from response)
+      // sources(from request or either from response)
 
       const state = reduxStore.getState();
 

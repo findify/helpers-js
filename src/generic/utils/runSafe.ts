@@ -1,7 +1,7 @@
 function runSafe(func) {
   try {
     return func();
-  } catch(err) {
+  } catch (err) {
     return undefined;
   }
 }

@@ -6,7 +6,7 @@ function makeCallApiSaga(success, failure) {
     try {
       const response = yield call(request);
       yield put(success(response));
-    } catch(err) {
+    } catch (err) {
       if (i < 2) {
         yield call(delay, 1000);
         yield* callApiSaga(request, i + 1);
@@ -14,7 +14,7 @@ function makeCallApiSaga(success, failure) {
         yield put(failure(err.message || 'Something bad happened'));
       }
     }
-  }
+  };
 }
 
 export {
