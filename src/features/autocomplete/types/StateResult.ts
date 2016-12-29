@@ -1,21 +1,18 @@
 import * as FindifySDK from 'findify-sdk';
 
-import { ResponseMeta } from '../../../generic/types';
+import { ResponseMeta as Meta } from '../../../generic/types';
 
 type StateResult = (
   Products |
   Suggestions |
   Query |
-  ResponseMeta
+  Meta
 );
 
 type Products = FindifySDK.Product[];
 type Suggestions = FindifySDK.AutocompleteSuggestion[];
 
-type Query = {
-  value: string,
-  id: string,
-};
+type Query = string;
 
 export {
   StateResult,
