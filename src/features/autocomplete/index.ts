@@ -45,6 +45,10 @@ import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 
 function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
   function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
+    if (!config || !isExists(config.key)) {
+      throw new Error('"key" param is required');
+    }
+
     if (config.user && !isExists(config.user.uid)) {
       throw new Error('"user.uid" param is required');
     }
