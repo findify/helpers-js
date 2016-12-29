@@ -68,6 +68,11 @@ const initialResponseMetaState = {
 const initialLastActionState = {} as any;
 
 const getRequestData = (state: State) => state.request.data;
+const getLastAction = (state: State) => state.lastAction;
+const getProducts = (state: State) => state.response.data.items;
+const getSuggestions = (state: State) => state.response.data.suggestions;
+const getQuery = (state: State) => state.request.data.q;
+const getMeta = (state: State) => state.response.meta;
 
 const rootReducer = combine<State>({
   request: combine({
@@ -101,4 +106,9 @@ type State = {
 export {
   rootReducer,
   getRequestData,
+  getLastAction,
+  getProducts,
+  getSuggestions,
+  getQuery,
+  getMeta,
 }
