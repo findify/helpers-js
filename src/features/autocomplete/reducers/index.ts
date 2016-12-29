@@ -104,6 +104,7 @@ type State = {
 };
 
 export {
+  State,
   rootReducer,
   getRequestData,
   getLastAction,
