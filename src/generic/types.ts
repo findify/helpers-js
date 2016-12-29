@@ -1,26 +1,23 @@
 import * as FindifySDK from 'findify-sdk';
+import * as Redux from 'redux';
 
-type Store<EE, SE, S> = {
-  emit: (event: EE) => Store<EE, SE, S>,
-  subscribe: (listener: SubscribeListener<SE, S>) => Unsubscribe,
-  // add `get` method to store, not to state
+type Store<EE, SE, SN, SR> = {
+  emit: (event: EE) => Store<EE, SE, SN, SR>,
+  subscribe: (listener: SubscribeListener<SE>) => Unsubscribe,
+  get: (name: SN) => SR,
+  // we need to provide plain objects without any nesting in ideal
 };
 
 // create helpers-redux package, which will be converting helpers stores to redux stores
 
 // we don't need `state` here
-type SubscribeListener<E, S> = (event: E, state: S) => void;
+type SubscribeListener<E> = (event: E) => void;
 
 type Unsubscribe = () => void;
 
 type Event<N, P> = {
   name: N,
   payload?: P,
-};
-
-type State<N, R> = {
-  // we need to provide plain objects without any nesting in ideal
-  get: (name: N) => R,
 };
 
 type ResponseMeta = {
@@ -41,6 +38,5 @@ export {
   RequestMeta,
   ResponseMeta,
   Event,
-  State,
   SubscribeListener,
 };
