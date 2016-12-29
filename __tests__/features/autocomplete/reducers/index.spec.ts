@@ -11,6 +11,7 @@ const requestDataReducer = reducers.__get__('requestDataReducer');
 const requestMetaReducer = reducers.__get__('requestMetaReducer');
 const responseDataReducer = reducers.__get__('responseDataReducer');
 const responseMetaReducer = reducers.__get__('responseMetaReducer');
+const lastActionReducer = reducers.__get__('lastActionReducer');
 
 describe('autocomplete reducers', () => {
   describe('rootReducer', () => {
@@ -26,11 +27,12 @@ describe('autocomplete reducers', () => {
           },
           data: {},
         },
+        lastAction: {},
       });
     });
   });
 
-  describe('request.data', () => {
+  describe('requestDataReducer', () => {
     const prevState = {};
 
     deepFreeze(prevState);
@@ -69,7 +71,7 @@ describe('autocomplete reducers', () => {
     });
   });
 
-  describe('request.meta', () => {
+  describe('requestMetaReducer', () => {
     const prevState = {};
 
     deepFreeze(prevState);
@@ -88,7 +90,7 @@ describe('autocomplete reducers', () => {
     });
   });
 
-  describe('response.data', () => {
+  describe('responseDataReducer', () => {
     const prevState = {};
 
     deepFreeze(prevState);
@@ -107,7 +109,7 @@ describe('autocomplete reducers', () => {
     });
   });
 
-  describe('response.meta', () => {
+  describe('responseMetaReducer', () => {
     const prevState = {};
 
     deepFreeze(prevState);
@@ -147,6 +149,20 @@ describe('autocomplete reducers', () => {
         isFetching: false,
         error: message,
       });
+    });
+  });
+
+  describe('lastActionReducer', () => {
+    const prevState = {};
+
+    deepFreeze(prevState);
+
+    it('should handle any dispatched action and return it as state', () => {
+      const action = {
+        type: 'SOME_ACTION',
+      };
+
+      expect(lastActionReducer(prevState, action as any)).toEqual(action);
     });
   });
 });

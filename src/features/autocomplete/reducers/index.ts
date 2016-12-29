@@ -2,6 +2,7 @@ import * as FindifySDK from 'findify-sdk';
 import * as assign from 'lodash/assign';
 import { combineReducers as combine } from 'redux';
 
+import { Action } from '../actions';
 import { ResponseMeta, RequestMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
 
@@ -54,12 +55,17 @@ function responseMetaReducer(state: ResponseMeta = initialResponseMetaState, act
   }
 }
 
+function lastActionReducer(state: Action = initialLastActionState, action: Action) {
+  return action;
+}
+
 const initialRequestDataState = {} as any;
 const initialRequestMetaState = {};
 const initialResponseDataState = {} as any;
 const initialResponseMetaState = {
   isFetching: false,
 };
+const initialLastActionState = {} as any;
 
 const getRequestData = (state: State) => state.request.data;
 
@@ -72,6 +78,7 @@ const rootReducer = combine<State>({
     data: responseDataReducer,
     meta: responseMetaReducer,
   }),
+  lastAction: lastActionReducer,
 });
 
 type RequestDataState = FindifySDK.AutocompleteRequest;
@@ -88,6 +95,7 @@ type State = {
     meta: ResponseMetaState,
     data?: ResponseDataState,
   },
+  lastAction: Action,
 };
 
 export {
