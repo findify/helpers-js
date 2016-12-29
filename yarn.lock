@@ -51,6 +51,12 @@
   dependencies:
     "@types/redux" "*"
 
+"@types/redux-mock-store@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@types/redux-mock-store/-/redux-mock-store-0.0.7.tgz#f7b46af371da4b6ef491e57e107d326f0a832201"
+  dependencies:
+    redux "^3.6.0"
+
 "@types/redux-saga@^0.9.31":
   version "0.9.31"
   resolved "https://registry.yarnpkg.com/@types/redux-saga/-/redux-saga-0.9.31.tgz#6b8de326835e179037a3bbcf658a10f60542bafc"
@@ -2155,6 +2161,10 @@ redux-logger@^2.7.4:
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-2.7.4.tgz#891e5d29e7f111d08b5781a237b9965b5858c7f8"
   dependencies:
     deep-diff "0.3.4"
+
+redux-mock-store@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.1.tgz#630c0e2642927d1417c844d935266b501f2fc231"
 
 redux-saga@^0.14.0:
   version "0.14.0"
