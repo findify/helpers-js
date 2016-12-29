@@ -119,10 +119,10 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
               user: (action as RequestAction).payload.user,
             }));
             break;
-          case  actionTypes.RESPONSE_SUCCESS:
+          case actionTypes.RESPONSE_SUCCESS:
             listener(createEvent<ResponseSuccessEvent>(eventsNames.responseSuccess));
             break;
-          case  actionTypes.RESPONSE_FAILURE:
+          case actionTypes.RESPONSE_FAILURE:
             listener(createEvent<ResponseFailureEvent>(eventsNames.responseFailure));
             break;
         }
