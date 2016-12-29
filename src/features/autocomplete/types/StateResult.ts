@@ -1,4 +1,4 @@
-import * as FindifySDK from 'findify-sdk';
+import * as FindifySDK from '@findify/findify-sdk';
 
 import { ResponseMeta as Meta } from '../../../generic/types';
 
