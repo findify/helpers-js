@@ -15,7 +15,7 @@
   "author": "1ven",
   "license": "ISC",
   "dependencies": {
-    "@findify/findify-sdk": "^1.1.9",
+    "@findify/findify-sdk": "^1.1.10",
     "@types/deep-freeze": "^0.0.29",
     "@types/expect": "^1.13.31",
     "@types/lodash": "4.14.30",
