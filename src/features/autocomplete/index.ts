@@ -1,9 +1,9 @@
 import * as FindifySDK from 'findify-sdk';
 
 import {
-  InputEvent,
   StateName,
   StateResult,
+  InputEvent,
   RequestEvent,
   ResponseSuccessEvent,
   ResponseFailureEvent,
@@ -13,22 +13,70 @@ import {
   Store,
   Config,
   SubscribeListener,
-  State as StateGeneric,
 } from '../../generic/types';
 
+import {
+  input,
+  request,
+  InputAction,
+  RequestAction,
+} from './actions';
+
+import {
+  getLastAction,
+  getProducts,
+  getSuggestions,
+  getQuery,
+  getMeta,
+} from './reducers';
+
+import { actionTypes } from './constants/actionTypes';
 import { eventsNames } from './constants/eventsNames';
-import { input, request } from './actions';
+import { stateNames } from './constants/stateNames';
 import { configureReduxStore } from './configureReduxStore';
+import { runSafe } from '../../generic/utils/runSafe';
+import { isExists } from '../../generic/utils/isExists';
 
 // avoid names duplication between redux state/store and lib state/store
 
-function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, State> {
+function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
+  if (config.user && !isExists(config.user.uid)) {
+    throw new Error('"user.uid" param is required');
+  }
+
+  if (config.user && !isExists(config.user.sid)) {
+    throw new Error('"user.sid" param is required');
+  }
+
   const sdk = FindifySDK.init(config);
 
   return {
     emit(event: EmitEvent) {
-      // possible validation errors, regarding not full request should be here
-      // use reduxStore.getState() for this + may be selectors
+      if (!isExists(event)) {
+        throw new Error('Please, specify event you want to emit');
+      }
+
+      if (event.name === eventsNames.input && (
+        !isExists(event.payload) || !isExists((event as InputEvent).payload.query)
+      )) {
+        throw new Error('"query" param is required in "input" event');
+      }
+
+      if (event.name === eventsNames.request && isExists(event.payload)) {
+        if (!isExists((event as RequestEvent).payload.user.uid)) {
+          throw new Error('"user.uid" param is required');
+        }
+
+        if (!isExists((event as RequestEvent).payload.user.sid)) {
+          throw new Error('"user.sid" param is required');
+        }
+      }
+
+      if (event.name === eventsNames.request && !isExists(config.user) && (
+        !isExists(event.payload) || !isExists((event as RequestEvent).payload.user)
+      )) {
+        throw new Error('`user` param should be provided either at request or at library config');
+      }
 
       switch (event.name) {
         case eventsNames.input:
@@ -47,15 +95,63 @@ function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, St
 
       return this;
     },
-    subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
+
+    subscribe(listener: SubscribeListener<SubscribeEvent>) {
+      if (typeof listener !== 'function') {
+        throw new Error('Listener should be a function');
+      }
+
       return reduxStore.subscribe(() => {
-        // const action = reduxStore.getState().lastAction;
-        // don't notify users on any state changes, notify only on their dispatched actions and for example response
-        // as we may have some internal actions, users should not care about this
+        const action = getLastAction(reduxStore.getState());
+
+        switch (action.type) {
+          case actionTypes.INPUT:
+            listener(createEvent<InputEvent>(eventsNames.input, {
+              query: (action as InputAction).payload.query,
+            }));
+            break;
+          case actionTypes.REQUEST:
+            listener(createEvent<RequestEvent>(eventsNames.request, {
+              itemsLimit: (action as RequestAction).payload.itemsLimit,
+              suggestionsLimit: (action as RequestAction).payload.suggestionsLimit,
+              user: (action as RequestAction).payload.user,
+            }));
+            break;
+          case  actionTypes.RESPONSE_SUCCESS:
+            listener(createEvent<ResponseSuccessEvent>(eventsNames.responseSuccess));
+            break;
+          case  actionTypes.RESPONSE_FAILURE:
+            listener(createEvent<ResponseFailureEvent>(eventsNames.responseFailure));
+            break;
+        }
       });
     },
-    // get(stateName: StateName) {},
+
+    get(name: StateName) {
+      if (!isExists(stateNames[name])) {
+        throw new Error('Event not found');
+      }
+      // !!!
+      // don't forget about cases when we need to return value by one name but from different
+      //sources(from request or either from response)
+
+      const state = reduxStore.getState();
+
+      switch (name) {
+        case stateNames.products: return runSafe(() => getProducts(state));
+        case stateNames.suggestions: return runSafe(() => getSuggestions(state));
+        case stateNames.query: return runSafe(() => getQuery(state));
+        case stateNames.meta: return runSafe(() => getMeta(state));
+      }
+    },
   };
+}
+
+function createEvent<E>(name, payload?): E {
+  return {
+    name,
+    payload,
+  } as any;
 }
 
 const reduxStore = configureReduxStore();
@@ -71,8 +167,6 @@ type SubscribeEvent = (
   ResponseSuccessEvent |
   ResponseFailureEvent
 );
-
-type State = StateGeneric<StateName, StateResult>;
 
 export {
   createAutocomplete,
