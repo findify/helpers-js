@@ -44,7 +44,7 @@ import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 // avoid names duplication between redux state/store and lib state/store
 
 function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
-  function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
+  return function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
     if (!config || !isExists(config.key)) {
       throw new Error('"key" param is required');
     }
