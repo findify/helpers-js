@@ -30,12 +30,14 @@ import {
   getMeta,
 } from './reducers';
 
+import { rootReducer } from './reducers';
+import { rootSaga } from './sagas';
 import { actionTypes } from './constants/actionTypes';
 import { eventsNames } from './constants/eventsNames';
 import { stateNames } from './constants/stateNames';
-import { configureReduxStore } from './configureReduxStore';
 import { runSafe } from '../../generic/utils/runSafe';
 import { isExists } from '../../generic/utils/isExists';
+import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 
 // avoid names duplication between redux state/store and lib state/store
 
@@ -154,7 +156,7 @@ function createEvent<E>(name, payload?): E {
   } as any;
 }
 
-const reduxStore = configureReduxStore();
+const reduxStore = configureReduxStore(rootReducer, rootSaga);
 
 type EmitEvent = (
   InputEvent |
