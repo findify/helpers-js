@@ -5,6 +5,8 @@ import { combineReducers as combine } from 'redux';
 import { ResponseMeta, RequestMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
 
+// store selectors here if needed
+
 function requestDataReducer(state: RequestDataState = initialRequestDataState, action) {
   switch (action.type) {
     case actionTypes.INPUT: return assign({}, state, {
@@ -59,6 +61,8 @@ const initialResponseMetaState = {
   isFetching: false,
 };
 
+const getRequestData = (state: State) => state.request.data;
+
 const rootReducer = combine<State>({
   request: combine({
     data: requestDataReducer,
@@ -88,4 +92,5 @@ type State = {
 
 export {
   rootReducer,
+  getRequestData,
 }

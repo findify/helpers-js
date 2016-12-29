@@ -1,3 +1,5 @@
+import * as FindifySDK from 'findify-sdk';
+
 import {
   InputEvent,
   StateName,
@@ -21,30 +23,38 @@ import { configureReduxStore } from './configureReduxStore';
 // avoid names duplication between redux state/store and lib state/store
 
 function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, State> {
+  const sdk = FindifySDK.init(config);
+
   return {
     emit(event: EmitEvent) {
+      // possible validation errors, regarding not full request should be here
+      // use reduxStore.getState() for this + may be selectors
+
       switch (event.name) {
         case eventsNames.input:
-          reduxStore.dispatch(input(
-            (event as InputEvent).payload.query
-          ));
+          reduxStore.dispatch(input({
+            query: (event as InputEvent).payload.query,
+          }));
           break;
         case eventsNames.request:
-          reduxStore.dispatch(request(
-            (event as RequestEvent).payload.itemsLimit,
-            (event as RequestEvent).payload.suggestionsLimit
-          ));
+          reduxStore.dispatch(request({
+            itemsLimit: (event as RequestEvent).payload.itemsLimit,
+            suggestionsLimit: (event as RequestEvent).payload.suggestionsLimit,
+            user: (event as RequestEvent).payload.user,
+          }, sdk));
           break;
       }
 
       return this;
     },
     subscribe(listener: SubscribeListener<SubscribeEvent, State>) {
-      // reduxStore.subscribe(() => {
-      //   const action = reduxStore.getState().lastAction;
-      // });
-      return () => {};
+      return reduxStore.subscribe(() => {
+        // const action = reduxStore.getState().lastAction;
+        // don't notify users on any state changes, notify only on their dispatched actions and for example response
+        // as we may have some internal actions, users should not care about this
+      });
     },
+    // get(stateName: StateName) {},
   };
 }
 
