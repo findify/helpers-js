@@ -14,6 +14,7 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
       q: action.payload.query,
     });
     case actionTypes.REQUEST: return assign({}, state, {
+      // `itemsLimit` is optional param. add checks on payload existance
       item_limit: action.payload.itemsLimit,
       suggestion_limit: action.payload.suggestionsLimit,
       user: action.payload.user,
