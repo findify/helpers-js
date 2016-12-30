@@ -190,4 +190,6 @@ type SubscribeEvent = (
 export {
   create,
   Store,
+  SubscribeEvent,
+  EmitEvent,
 }
