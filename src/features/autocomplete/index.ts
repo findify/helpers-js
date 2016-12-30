@@ -45,7 +45,11 @@ import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 
 function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
   return function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
-    if (!config || !isExists(config.key)) {
+    if (!isExists(config)) {
+      throw new Error('Please, provide configuration object');
+    }
+
+    if (!isExists(config.key)) {
       throw new Error('"key" param is required');
     }
 
@@ -62,13 +66,23 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
     return {
       emit(event: EmitEvent) {
         if (!isExists(event)) {
-          throw new Error('Please, specify event you want to emit');
+          throw new Error('Please, provide event you want to emit');
+        }
+
+        if (!isExists(event.name)) {
+          throw new Error('Please, provide event "name"');
         }
 
         if (event.name === eventsNames.input && (
           !isExists(event.payload) || !isExists((event as InputEvent).payload.query)
         )) {
           throw new Error('"query" param is required in "input" event');
+        }
+
+        if (event.name === eventsNames.request && !isExists(config.user) && (
+          !isExists(event.payload) || !isExists((event as RequestEvent).payload.user)
+        )) {
+          throw new Error('`user` param should be provided either at request or at library config');
         }
 
         if (event.name === eventsNames.request && isExists(event.payload)) {
@@ -81,26 +95,12 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
           }
         }
 
-        if (event.name === eventsNames.request && !isExists(config.user) && (
-          !isExists(event.payload) || !isExists((event as RequestEvent).payload.user)
-        )) {
-          throw new Error('`user` param should be provided either at request or at library config');
-        }
-
         switch (event.name) {
           case eventsNames.input:
-            reduxStore.dispatch(input({
-              query: (event as InputEvent).payload.query,
-            }));
+            reduxStore.dispatch(input((event as InputEvent).payload));
             break;
           case eventsNames.request:
-            reduxStore.dispatch(request({
-              // in the future if it turns that interface of event payload is the same as corresponding action payload -
-              // don't use these object mappings, provide whole payload to `request` function instead
-              itemsLimit: (event as RequestEvent).payload.itemsLimit,
-              suggestionsLimit: (event as RequestEvent).payload.suggestionsLimit,
-              user: (event as RequestEvent).payload.user,
-            }, sdk));
+            reduxStore.dispatch(request((event as RequestEvent).payload, sdk));
             break;
         }
 
@@ -120,19 +120,11 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
           const action = getLastAction(reduxStore.getState());
 
           switch (action.type) {
-            // in the future if it turns that interface of event payload is the same as corresponding action payload -
-            // don't use these object mappings, provide whole payload to `listener` function instead
             case actionTypes.INPUT:
-              listener(createEvent<InputEvent>(eventsNames.input, {
-                query: (action as InputAction).payload.query,
-              }));
+              listener(createEvent<InputEvent>(eventsNames.input, (action as InputAction).payload));
               break;
             case actionTypes.REQUEST:
-              listener(createEvent<RequestEvent>(eventsNames.request, {
-                itemsLimit: (action as RequestAction).payload.itemsLimit,
-                suggestionsLimit: (action as RequestAction).payload.suggestionsLimit,
-                user: (action as RequestAction).payload.user,
-              }));
+              listener(createEvent<RequestEvent>(eventsNames.request, (action as RequestAction).payload));
               break;
             case actionTypes.RESPONSE_SUCCESS:
               listener(createEvent<ResponseSuccessEvent>(eventsNames.responseSuccess));
@@ -145,6 +137,10 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
       },
 
       get(name: StateName) {
+        if (!isExists(name)) {
+          throw new Error('Please, provide state name');
+        }
+
         if (!isExists(stateNames[name])) {
           throw new Error('Event not found');
         }
@@ -166,7 +162,9 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
 }
 
 function createEvent<E>(name, payload?): E {
-  return {
+  return !payload ? {
+    name,
+  } as any : {
     name,
     payload,
   } as any;
