@@ -1,14 +1,16 @@
 import { delay } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
+import { isExists } from './utils/isExists';
+import { runSafe } from './utils/runSafe';
+
 function makeCallApiSaga(success, failure) {
   return function* callApiSaga(request, i = 0) {
     try {
       const response = yield call(request);
       yield put(success(response));
     } catch (err) {
-      // determine, whether here request error, not regular js error
-      if (i < 2) {
+      if (i < 2 && isAxiosError(err)) {
         yield call(delay, 1000);
         yield* callApiSaga(request, i + 1);
       } else {
@@ -16,6 +18,10 @@ function makeCallApiSaga(success, failure) {
       }
     }
   };
+}
+
+function isAxiosError(err: Error) {
+  return isExists(runSafe(() => (err as any).config.method));
 }
 
 export {

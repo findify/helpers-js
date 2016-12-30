@@ -23,6 +23,11 @@ describe('generic sagas', () => {
 
     it('should retry 3 times on failed response, otherwise yield "put" effect with failure action', () => {
       const error = new Error('test message');
+
+      (error as any).config = {
+        method: 'GET',
+      };
+
       const request: any = () => error;
       const gen = callApiSaga(request);
 
@@ -31,6 +36,16 @@ describe('generic sagas', () => {
 
       expect(gen.next().value).toEqual(call(request));
       expect(gen.throw(error).value).toEqual(call(delay, 1000));
+
+      expect(gen.next().value).toEqual(call(request));
+      expect(gen.throw(error).value).toEqual(put(failure('test message')));
+      expect(gen.next().done).toBeTruthy();
+    });
+
+    it('should yield "put" effect with failure action if non-network error was occured', () => {
+      const error = new Error('test message');
+      const request: any = () => error;
+      const gen = callApiSaga(request);
 
       expect(gen.next().value).toEqual(call(request));
       expect(gen.throw(error).value).toEqual(put(failure('test message')));
