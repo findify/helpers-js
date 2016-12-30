@@ -7,6 +7,7 @@ function makeCallApiSaga(success, failure) {
       const response = yield call(request);
       yield put(success(response));
     } catch (err) {
+      // determine, whether here request error, not regular js error
       if (i < 2) {
         yield call(delay, 1000);
         yield* callApiSaga(request, i + 1);
