@@ -85,7 +85,9 @@ function makeCreate(reduxStore: Redux.Store<ReduxState>) {
           throw new Error('`user` param should be provided either at request or at library config');
         }
 
-        if (event.name === eventsNames.request && isExists(event.payload)) {
+        if (event.name === eventsNames.request && (
+          isExists(event.payload) && isExists((event as RequestEvent).payload.user)
+        )) {
           if (!isExists((event as RequestEvent).payload.user.uid)) {
             throw new Error('"user.uid" param is required');
           }

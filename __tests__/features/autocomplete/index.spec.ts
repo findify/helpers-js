@@ -144,7 +144,32 @@ describe('createAutocomplete', () => {
       }]);
     });
 
-    it('should dispatch "REQUEST" action if "request" event was emitted', () => {
+    it('should dispatch "REQUEST" action if "request" event was emitted while "user" was given at config', () => {
+      const autocomplete2 = createAutocomplete({
+        key: 'testApiKey',
+        user: {
+          uid: 'testUserId',
+          sid: 'testSesstionId',
+        },
+      });
+      const payload = {
+        itemsLimit: 2,
+      };
+
+      autocomplete2.emit({
+        name: 'request',
+        payload,
+      });
+
+      const actions = store.getActions().map((action) => omit(action, ['service']));
+
+      expect(actions).toEqual([{
+        type: actionTypes.REQUEST,
+        payload,
+      }]);
+    });
+
+    it('should dispatch "REQUEST" action if "request" event was emitted while "user" was given at request', () => {
       const payload = {
         itemsLimit: 1,
         suggestionsLimit: 5,
