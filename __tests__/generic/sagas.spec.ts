@@ -20,8 +20,8 @@ describe('generic sagas', () => {
       expect(gen.next().value).toEqual(call(request));
 
       const putData = gen.next(serverResponse).value;
-      expect(putData['PUT'].action.payload.response.receivedAt).toBeA('number');
-      delete putData['PUT'].action.payload.response.receivedAt;
+      expect(putData.PUT.action.payload.response.receivedAt).toBeA('number');
+      delete putData.PUT.action.payload.response.receivedAt;
 
       expect(putData).toEqual(put(success(payload)));
       expect(gen.next().done).toBeTruthy();
