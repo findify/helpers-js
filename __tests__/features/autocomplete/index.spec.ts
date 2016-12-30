@@ -227,11 +227,11 @@ describe('createAutocomplete', () => {
       it('should return function to unsubscribe from store', () => {
         const rootReducer = (state = {}, action) => ({ lastAction: action });
         const reduxStore = Redux.createStore(rootReducer);
-        const autocomplete = makeCreateAutocomplete(reduxStore)({
+        const autocomplete2 = makeCreateAutocomplete(reduxStore)({
           key: 'testApiKey',
         });
         const spy = expect.createSpy();
-        const unsubscribe = autocomplete.subscribe(spy);
+        const unsubscribe = autocomplete2.subscribe(spy);
 
         unsubscribe();
 
@@ -271,20 +271,17 @@ describe('createAutocomplete', () => {
           query: 'q',
         };
 
-        testNotifying(
-          (store) => {
-            store.dispatch({
-              type: actionTypes.INPUT,
-              payload,
-            });
-          },
-          (event) => {
-            expect(event).toEqual({
-              name: 'input',
-              payload,
-            });
-          }
-        );
+        testNotifying((store) => {
+          store.dispatch({
+            type: actionTypes.INPUT,
+            payload,
+          });
+        }, (event) => {
+          expect(event).toEqual({
+            name: 'input',
+            payload,
+          });
+        });
       });
 
       it('should notify listeners when "REQUEST" action was dispatched', () => {
@@ -297,61 +294,52 @@ describe('createAutocomplete', () => {
           },
         };
 
-        testNotifying(
-          (store) => {
-            store.dispatch({
-              type: actionTypes.REQUEST,
-              payload,
-            });
-          },
-          (event) => {
-            expect(event).toEqual({
-              name: 'request',
-              payload,
-            });
-          }
-        );
+        testNotifying((store) => {
+          store.dispatch({
+            type: actionTypes.REQUEST,
+            payload,
+          });
+        }, (event) => {
+          expect(event).toEqual({
+            name: 'request',
+            payload,
+          });
+        });
       });
 
       it('should notify listeners when "RESPONSE_SUCCESS" action was dispatched', () => {
-        testNotifying(
-          (store) => {
-            store.dispatch({
-              type: actionTypes.RESPONSE_SUCCESS,
-              payload: {
-                response: {
-                  key: 'serverResponse',
-                },
-                receivedAt: 1,
+        testNotifying((store) => {
+          store.dispatch({
+            type: actionTypes.RESPONSE_SUCCESS,
+            payload: {
+              response: {
+                key: 'serverResponse',
               },
-            });
-          },
-          (event) => {
-            expect(event).toEqual({
-              name: 'responseSuccess',
-            });
-          }
-        );
+              receivedAt: 1,
+            },
+          });
+        }, (event) => {
+          expect(event).toEqual({
+            name: 'responseSuccess',
+          });
+        });
       });
 
       it('should notify listeners when "RESPONSE_FAILURE" action was dispatched', () => {
-        testNotifying(
-          (store) => {
-            store.dispatch({
-              type: actionTypes.RESPONSE_FAILURE,
-              payload: {
-                message: 'testMessage',
-              },
-            });
-          },
-          (event) => {
-            expect(event).toEqual({
-              name: 'responseFailure',
-            });
-          }
-        );
+        testNotifying((store) => {
+          store.dispatch({
+            type: actionTypes.RESPONSE_FAILURE,
+            payload: {
+              message: 'testMessage',
+            },
+          });
+        }, (event) => {
+          expect(event).toEqual({
+            name: 'responseFailure',
+          });
+        });
       });
-    })
+    });
   });
 
   describe('get', () => {
@@ -432,6 +420,6 @@ describe('createAutocomplete', () => {
       expect(emptyAutocomplete.get('suggestions')).toBe(undefined);
       expect(emptyAutocomplete.get('query')).toBe(undefined);
       expect(emptyAutocomplete.get('meta')).toBe(undefined);
-    })
+    });
   });
 });

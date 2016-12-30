@@ -44,7 +44,7 @@ import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 // avoid names duplication between redux state/store and lib state/store
 
 function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
-  return function createAutocomplete(config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> {
+  return (config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> => {
     if (!isExists(config)) {
       throw new Error('Please, provide configuration object');
     }
