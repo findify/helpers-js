@@ -14,6 +14,11 @@
   },
   "author": "1ven",
   "license": "ISC",
+  "files": [
+    "lib",
+    "src",
+    "index.d.ts"
+  ],
   "dependencies": {
     "@findify/findify-sdk": "^1.1.11",
     "@types/deep-freeze": "^0.0.29",
