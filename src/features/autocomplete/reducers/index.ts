@@ -7,8 +7,6 @@ import { ResponseMeta, RequestMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
 import { makeObjectSafe } from '../../../generic/utils/makeObjectSafe';
 
-// store selectors here if needed
-
 function requestDataReducer(state: RequestDataState = initialRequestDataState, action) {
   switch (action.type) {
     case actionTypes.INPUT: return assign({}, state, {
