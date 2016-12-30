@@ -50,7 +50,7 @@ describe('autocomplete reducers', () => {
       });
     });
 
-    it('should handle REQUEST', () => {
+    it('should handle REQUEST with optional params in payload', () => {
       const payload = {
         itemsLimit: 1,
         suggestionsLimit: 4,
@@ -68,6 +68,12 @@ describe('autocomplete reducers', () => {
         suggestion_limit: payload.suggestionsLimit,
         user: payload.user,
       });
+    });
+
+    it('should handle REQUEST without optional params in payload', () => {
+      expect(requestDataReducer(prevState, {
+        type: actionTypes.REQUEST,
+      })).toEqual({});
     });
   });
 

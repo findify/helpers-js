@@ -5,6 +5,7 @@ import { combineReducers as combine } from 'redux';
 import { Action } from '../actions';
 import { ResponseMeta, RequestMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
+import { makeObjectSafe } from '../../../generic/utils/makeObjectSafe';
 
 // store selectors here if needed
 
@@ -13,12 +14,11 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
     case actionTypes.INPUT: return assign({}, state, {
       q: action.payload.query,
     });
-    case actionTypes.REQUEST: return assign({}, state, {
-      // `itemsLimit` is optional param. add checks on payload existance
-      item_limit: action.payload.itemsLimit,
-      suggestion_limit: action.payload.suggestionsLimit,
-      user: action.payload.user,
-    });
+    case actionTypes.REQUEST: return assign({}, state, makeObjectSafe({
+      item_limit: () => action.payload.itemsLimit,
+      suggestion_limit: () => action.payload.suggestionsLimit,
+      user: () => action.payload.user,
+    }));
     default: return state;
   }
 }
