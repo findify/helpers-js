@@ -42,6 +42,7 @@ export {
   RequestEvent,
   ResponseSuccessEvent,
   ResponseFailureEvent,
+  Event,
   StateName,
   StateResult,
 };
