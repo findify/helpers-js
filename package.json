@@ -8,7 +8,7 @@
     "lint": "tslint --project .",
     "build": "tsc && babel ./__lib-es6__ --out-dir ./lib && rimraf ./__lib-es6__",
     "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__",
-    "check": "npm-run-all -s test build lint clean",
+    "check": "npm run test && npm run build && npm run lint && npm run clean",
     "preversion": "npm run check && git checkout master && git merge develop",
     "postversion": "git push && git push --tags && git checkout develop && git merge master && git push"
   },
@@ -30,7 +30,6 @@
     "expect": "^1.20.2",
     "lodash": "^4.17.3",
     "mocha": "^3.2.0",
-    "npm-run-all": "^3.1.2",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-mock-store": "^1.2.1",
