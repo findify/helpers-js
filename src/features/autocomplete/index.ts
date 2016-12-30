@@ -95,6 +95,8 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
             break;
           case eventsNames.request:
             reduxStore.dispatch(request({
+              // in the future if it turns that interface of event payload is the same as corresponding action payload -
+              // don't use these object mappings, provide whole payload to `request` function instead
               itemsLimit: (event as RequestEvent).payload.itemsLimit,
               suggestionsLimit: (event as RequestEvent).payload.suggestionsLimit,
               user: (event as RequestEvent).payload.user,
@@ -118,6 +120,8 @@ function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
           const action = getLastAction(reduxStore.getState());
 
           switch (action.type) {
+            // in the future if it turns that interface of event payload is the same as corresponding action payload -
+            // don't use these object mappings, provide whole payload to `listener` function instead
             case actionTypes.INPUT:
               listener(createEvent<InputEvent>(eventsNames.input, {
                 query: (action as InputAction).payload.query,
