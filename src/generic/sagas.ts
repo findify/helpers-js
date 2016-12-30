@@ -8,7 +8,11 @@ function makeCallApiSaga(success, failure) {
   return function* callApiSaga(request, i = 0) {
     try {
       const response = yield call(request);
-      yield put(success(response));
+
+      yield put(success({
+        response,
+        receivedAt: Date.now(),
+      }));
     } catch (err) {
       if (i < 2 && isAxiosError(err)) {
         yield call(delay, 1000);

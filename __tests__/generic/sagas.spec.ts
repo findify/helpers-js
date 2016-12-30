@@ -13,11 +13,17 @@ describe('generic sagas', () => {
     const callApiSaga = makeCallApiSaga(success, failure);
 
     it('should yield "request" function and yield success action with response to "put" effect', () => {
+      const payload = { response: serverResponse };
       const request: any = () => Promise.resolve(serverResponse);
       const gen = callApiSaga(request);
 
       expect(gen.next().value).toEqual(call(request));
-      expect(gen.next(serverResponse).value).toEqual(put(success(serverResponse)));
+
+      const putData = gen.next(serverResponse).value;
+      expect(putData['PUT'].action.payload.response.receivedAt).toBeA('number');
+      delete putData['PUT'].action.payload.response.receivedAt;
+
+      expect(putData).toEqual(put(success(payload)));
       expect(gen.next().done).toBeTruthy();
     });
 
