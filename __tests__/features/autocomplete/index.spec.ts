@@ -397,7 +397,7 @@ describe('createAutocomplete', () => {
         meta,
         data: {
           suggestions,
-          items: products,
+          products,
         },
       },
     };
