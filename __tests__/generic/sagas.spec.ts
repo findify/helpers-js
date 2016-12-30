@@ -8,8 +8,8 @@ import { makeCallApiSaga } from '../../src/generic/sagas';
 describe('generic sagas', () => {
   describe('makeCallApiSaga', () => {
     const serverResponse = 'responseData';
-    const success = (response) => ({ type: 'success', payload: { response } });
-    const failure = (message) => ({ type: 'failure', payload: { message } });
+    const success = (payload) => ({ type: 'success', payload });
+    const failure = (payload) => ({ type: 'failure', payload });
     const callApiSaga = makeCallApiSaga(success, failure);
 
     it('should yield "request" function and yield success action with response to "put" effect', () => {
@@ -20,8 +20,8 @@ describe('generic sagas', () => {
       expect(gen.next().value).toEqual(call(request));
 
       const putData = gen.next(serverResponse).value;
-      expect(putData.PUT.action.payload.response.receivedAt).toBeA('number');
-      delete putData.PUT.action.payload.response.receivedAt;
+      expect(putData.PUT.action.payload.receivedAt).toBeA('number');
+      delete putData.PUT.action.payload.receivedAt;
 
       expect(putData).toEqual(put(success(payload)));
       expect(gen.next().done).toBeTruthy();
@@ -44,7 +44,7 @@ describe('generic sagas', () => {
       expect(gen.throw(error).value).toEqual(call(delay, 1000));
 
       expect(gen.next().value).toEqual(call(request));
-      expect(gen.throw(error).value).toEqual(put(failure('test message')));
+      expect(gen.throw(error).value).toEqual(put(failure({ message: 'test message' })));
       expect(gen.next().done).toBeTruthy();
     });
 
@@ -54,7 +54,7 @@ describe('generic sagas', () => {
       const gen = callApiSaga(request);
 
       expect(gen.next().value).toEqual(call(request));
-      expect(gen.throw(error).value).toEqual(put(failure('test message')));
+      expect(gen.throw(error).value).toEqual(put(failure({ message: 'test message' })));
       expect(gen.next().done).toBeTruthy();
     });
   });

@@ -4,6 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import { isExists } from './utils/isExists';
 import { runSafe } from './utils/runSafe';
 
+// define types of `success` and `failure` functions
 function makeCallApiSaga(success, failure) {
   return function* callApiSaga(request, i = 0) {
     try {
@@ -18,7 +19,9 @@ function makeCallApiSaga(success, failure) {
         yield call(delay, 1000);
         yield* callApiSaga(request, i + 1);
       } else {
-        yield put(failure(err.message || 'Something bad happened'));
+        yield put(failure({
+          message: err.message || 'Something bad happened'
+        }));
       }
     }
   };
