@@ -10,7 +10,7 @@ import { actionTypes } from '../../../src/features/autocomplete/constants/action
 
 const a = rewire('../../../src/features/autocomplete');
 
-const makeCreateAutocomplete = a.__get__('makeCreateAutocomplete');
+const makeCreateAutocomplete = a.__get__('makeCreate');
 const mockStore = configureMockStore();
 
 describe('createAutocomplete', () => {

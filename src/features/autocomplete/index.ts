@@ -11,7 +11,7 @@ import {
 } from './types';
 
 import {
-  Store,
+  Store as GenericStore,
   Config,
   SubscribeListener,
 } from '../../generic/types';
@@ -43,8 +43,8 @@ import { configureReduxStore } from '../../generic/helpers/configureReduxStore';
 
 // avoid names duplication between redux state/store and lib state/store
 
-function makeCreateAutocomplete(reduxStore: Redux.Store<ReduxState>) {
-  return (config: Config): Store<EmitEvent, SubscribeEvent, StateName, StateResult> => {
+function makeCreate(reduxStore: Redux.Store<ReduxState>) {
+  return (config: Config): Store => {
     if (!isExists(config)) {
       throw new Error('Please, provide configuration object');
     }
@@ -171,7 +171,9 @@ function createEvent<E>(name, payload?): E {
 }
 
 const reduxStore = configureReduxStore(rootReducer, rootSaga);
-const createAutocomplete = makeCreateAutocomplete(reduxStore);
+const create = makeCreate(reduxStore);
+
+type Store = GenericStore<EmitEvent, SubscribeEvent, StateName, StateResult>;
 
 type EmitEvent = (
   InputEvent |
@@ -186,5 +188,6 @@ type SubscribeEvent = (
 );
 
 export {
-  createAutocomplete,
+  create,
+  Store,
 }

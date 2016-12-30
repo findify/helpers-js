@@ -1,1 +1,1 @@
-export { createAutocomplete } from './features/autocomplete';
+export { create as createAutocomplete } from './features/autocomplete';
