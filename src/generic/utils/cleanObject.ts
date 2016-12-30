@@ -20,4 +20,3 @@ type InputObject = {
 export {
   cleanObject,
 }
-
