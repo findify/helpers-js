@@ -20,7 +20,7 @@ function makeCallApiSaga(success, failure) {
         yield* callApiSaga(request, i + 1);
       } else {
         yield put(failure({
-          message: err.message || 'Something bad happened'
+          message: err.message || 'Something bad happened',
         }));
       }
     }
