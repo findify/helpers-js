@@ -1,5 +1,5 @@
 import * as FindifySDK from '@findify/findify-sdk';
-import { Event as GenericEvent, ResponseMeta as Meta } from '../../generic/types';
+import { Event as GenericEvent, ResponseMeta as MetaStateResult } from '../../generic/types';
 
 type InputEvent = GenericEvent<'input', {
   query: string,
@@ -12,9 +12,9 @@ type RequestEvent = GenericEvent<'request', {
 type ResponseSuccessEvent = GenericEvent<'responseSuccess', void>;
 type ResponseFailureEvent = GenericEvent<'responseFailure', void>;
 
-type Products = FindifySDK.Product[];
-type Suggestions = FindifySDK.AutocompleteSuggestion[];
-type Query = string;
+type ProductsStateResult = FindifySDK.Product[];
+type SuggestionsStateResult = FindifySDK.AutocompleteSuggestion[];
+type QueryStateResult = string;
 
 type Event = (
   InputEvent |
@@ -31,10 +31,10 @@ type StateName = (
 );
 
 type StateResult = (
-  Products |
-  Suggestions |
-  Query |
-  Meta
+  ProductsStateResult |
+  SuggestionsStateResult |
+  QueryStateResult |
+  MetaStateResult
 );
 
 export {
