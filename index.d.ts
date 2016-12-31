@@ -54,7 +54,7 @@ declare module "@findify/findify-helpers" {
     AutocompleteResponseSuccessEvent |
     AutocompleteResponseFailureEvent
   );
-  type AutocompleteSubscribeListener = (event: AutocompleteSubscribeEvent) => void,
+  type AutocompleteSubscribeListener = (event: AutocompleteSubscribeEvent) => void;
   type AutocompleteStore = {
     emit: (event: AutocompleteEmitEvent) => AutocompleteStore,
     subscribe: (listener: AutocompleteSubscribeListener) => Unsubscribe,
