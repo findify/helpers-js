@@ -1,16 +1,65 @@
-import * as Types from './src/generic/types';
-import * as AutocompleteTypes from './src/features/autocomplete/types';
-import * as Autocomplete from './src/features/autocomplete';
+import * as FindifySDK from '@findify/findify-sdk';
 
 declare module "@findify/findify-helpers" {
-  type Unsubscribe = Types.Unsubscribe;
+  type Unsubscribe = () => void;
 
-  type AutocompleteStateResult = AutocompleteTypes.StateResult;
-  type AutocompleteStateName = AutocompleteTypes.StateName;
-  type AutocompleteStore = Autocomplete.Store;
-  type AutocompleteSubscribeEvent = Autocomplete.SubscribeEvent;
-  type AutocompleteEmitEvent = Autocomplete.EmitEvent;
-  type AutocompleteSubscribeListener = Types.SubscribeListener<AutocompleteSubscribeEvent>;
+  type AutocompleteProductsStateResult = FindifySDK.Product[];
+  type AutocompleteSuggestionsStateResult = FindifySDK.AutocompleteSuggestion[];
+  type AutocompleteQueryStateResult = string;
+  type AutocompleteMetaStateResult = {
+    isFetching: boolean,
+    lastUpdated?: number,
+    error?: string,
+  };
+  type AutocompleteStateResult = (
+    AutocompleteProductsStateResult |
+    AutocompleteSuggestionsStateResult |
+    AutocompleteQueryStateResult |
+    AutocompleteMetaStateResult
+  );
+  type AutocompleteStateName = (
+    'products' |
+    'suggestions' |
+    'query' |
+    'meta'
+  );
+  type AutocompleteInputEvent = {
+    name: 'input',
+    payload: {
+      query: string,
+    },
+  };
+  type AutocompleteRequestEvent = {
+    name: 'request',
+    payload?: {
+      itemsLimit?: number,
+      suggestionsLimit?: number,
+      user?: FindifySDK.User,
+    },
+  };
+  type AutocompleteResponseSuccessEvent = {
+    name: 'responseSuccess',
+  };
+  type AutocompleteResponseFailureEvent = {
+    name: 'responseFailure',
+  };
+  type AutocompleteEmitEvent = (
+    AutocompleteInputEvent |
+    AutocompleteRequestEvent
+  );
 
-  function createAutocomplete(config: Types.Config): AutocompleteStore;
+  type AutocompleteSubscribeEvent = (
+    AutocompleteInputEvent |
+    AutocompleteRequestEvent |
+    AutocompleteResponseSuccessEvent |
+    AutocompleteResponseFailureEvent
+  );
+  type AutocompleteSubscribeListener = (event: AutocompleteSubscribeEvent) => void,
+  type AutocompleteStore = {
+    emit: (event: AutocompleteEmitEvent) => AutocompleteStore,
+    subscribe: (listener: AutocompleteSubscribeListener) => Unsubscribe,
+    get: (name: AutocompleteStateName) => AutocompleteStateResult,
+  };
+
+  function createAutocomplete(config: FindifySDK.Config): AutocompleteStore;
 }
