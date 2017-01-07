@@ -1,6 +1,14 @@
 import * as Redux from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
+const composeEnhancers = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+) || Redux.compose;
+
+declare const window: {
+  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any,
+};
+
 function configureReduxStore(rootReducer, rootSaga) {
   const sagaMiddleware = createSagaMiddleware();
 
@@ -11,7 +19,9 @@ function configureReduxStore(rootReducer, rootSaga) {
   const store = Redux.createStore(
     rootReducer,
     undefined,
-    Redux.applyMiddleware(...middlewares),
+    composeEnhancers(
+      Redux.applyMiddleware(...middlewares),
+    ),
   );
 
   sagaMiddleware.run(rootSaga);
