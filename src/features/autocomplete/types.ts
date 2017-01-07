@@ -12,7 +12,7 @@ type RequestEvent = GenericEvent<'request', {
 type ResponseSuccessEvent = GenericEvent<'responseSuccess', void>;
 type ResponseFailureEvent = GenericEvent<'responseFailure', void>;
 
-type ProductsStateResult = FindifySDK.Product[];
+type ProductsStateResult = FindifySDK.AutocompleteProduct[];
 type SuggestionsStateResult = FindifySDK.AutocompleteSuggestion[];
 type QueryStateResult = string;
 

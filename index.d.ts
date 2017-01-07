@@ -4,7 +4,7 @@ declare module "@findify/findify-helpers" {
   type Config = FindifySDK.Config;
   type Unsubscribe = () => void;
 
-  type AutocompleteProductData = FindifySDK.Product;
+  type AutocompleteProductData = FindifySDK.AutocompleteProduct;
   type AutocompleteSuggestionData = FindifySDK.AutocompleteSuggestion;
   type AutocompleteMetaData = {
     isFetching: boolean,
