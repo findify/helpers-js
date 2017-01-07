@@ -4,11 +4,14 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./lib ./dist",
     "lint": "tslint --project .",
-    "build": "tsc --project . && babel ./__lib-es6__ --out-dir ./lib && rimraf ./__lib-es6__",
-    "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__",
     "check": "npm run test && npm run build && npm run lint && npm run clean",
+    "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__",
+    "build:commonjs": "tsc --project . && babel ./__lib-es6__ --out-dir ./lib && rimraf ./__lib-es6__",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.ts dist/findify-helpers.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.ts dist/findify-helpers.min.js",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
     "prepublish": "npm run build",
     "postpublish": "npm run clean",
     "preversion": "npm run check && git checkout master && git merge develop",
@@ -17,6 +20,7 @@
   "author": "1ven",
   "license": "ISC",
   "files": [
+    "dist",
     "lib",
     "index.d.ts"
   ],
@@ -31,8 +35,11 @@
     "@types/redux-saga": "^0.9.31",
     "@types/rewire": "^2.5.27",
     "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
     "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.18.0",
+    "cross-env": "^3.1.4",
     "deep-freeze": "^0.0.1",
     "expect": "^1.20.2",
     "lodash": "^4.17.3",
@@ -42,8 +49,10 @@
     "redux-saga": "^0.14.0",
     "rewire": "^2.5.2",
     "rimraf": "^2.5.4",
+    "ts-loader": "^1.3.3",
     "ts-node": "^1.7.3",
     "tslint": "^4.2.0",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.4",
+    "webpack": "^1.14.0"
   }
 }
