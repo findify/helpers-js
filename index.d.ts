@@ -3,14 +3,18 @@ import * as FindifySDK from '@findify/findify-sdk';
 declare module "@findify/findify-helpers" {
   type Unsubscribe = () => void;
 
-  type AutocompleteProductsStateResult = FindifySDK.Product[];
-  type AutocompleteSuggestionsStateResult = FindifySDK.AutocompleteSuggestion[];
-  type AutocompleteQueryStateResult = string;
-  type AutocompleteMetaStateResult = {
+  type AutocompleteProductData = FindifySDK.Product;
+  type AutocompleteSuggestionData = FindifySDK.AutocompleteSuggestion;
+  type AutocompleteMetaData = {
     isFetching: boolean,
     lastUpdated?: number,
     error?: string,
   };
+
+  type AutocompleteQueryStateResult = string;
+  type AutocompleteProductsStateResult = AutocompleteProductData[];
+  type AutocompleteSuggestionsStateResult = AutocompleteSuggestionData[];
+  type AutocompleteMetaStateResult = AutocompleteMetaData;
   type AutocompleteStateResult = (
     AutocompleteProductsStateResult |
     AutocompleteSuggestionsStateResult |
