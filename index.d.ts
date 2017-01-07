@@ -1,6 +1,7 @@
 import * as FindifySDK from '@findify/findify-sdk';
 
 declare module "@findify/findify-helpers" {
+  type Config = FindifySDK.Config;
   type Unsubscribe = () => void;
 
   type AutocompleteProductData = FindifySDK.Product;
@@ -11,22 +12,6 @@ declare module "@findify/findify-helpers" {
     error?: string,
   };
 
-  type AutocompleteQueryStateResult = string;
-  type AutocompleteProductsStateResult = AutocompleteProductData[];
-  type AutocompleteSuggestionsStateResult = AutocompleteSuggestionData[];
-  type AutocompleteMetaStateResult = AutocompleteMetaData;
-  type AutocompleteStateResult = (
-    AutocompleteProductsStateResult |
-    AutocompleteSuggestionsStateResult |
-    AutocompleteQueryStateResult |
-    AutocompleteMetaStateResult
-  );
-  type AutocompleteStateName = (
-    'products' |
-    'suggestions' |
-    'query' |
-    'meta'
-  );
   type AutocompleteInputEvent = {
     name: 'input',
     payload: {
@@ -61,9 +46,12 @@ declare module "@findify/findify-helpers" {
   type AutocompleteSubscribeListener = (event: AutocompleteSubscribeEvent) => void;
   type AutocompleteStore = {
     emit: (event: AutocompleteEmitEvent) => AutocompleteStore,
-    subscribe: (listener: AutocompleteSubscribeListener) => Unsubscribe,
-    get: (name: AutocompleteStateName) => AutocompleteStateResult,
+    subscribe(listener: AutocompleteSubscribeListener): Unsubscribe,
+    get(name: 'products'): AutocompleteProductData[],
+    get(name: 'suggestions'): AutocompleteSuggestionData[],
+    get(name: 'meta'): AutocompleteMetaData,
+    get(name: 'query'): string,
   };
 
-  function createAutocomplete(config: FindifySDK.Config): AutocompleteStore;
+  function createAutocomplete(config: Config): AutocompleteStore;
 }
