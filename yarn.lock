@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@findify/findify-sdk@^1.1.16":
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/@findify/findify-sdk/-/findify-sdk-1.1.16.tgz#00513136dd97d9d5cc7ec1611f0ef8c91f6a5b25"
+"@findify/findify-sdk@^1.1.17":
+  version "1.1.17"
+  resolved "https://registry.yarnpkg.com/@findify/findify-sdk/-/findify-sdk-1.1.17.tgz#ba338b98419829e46b580e3b11b4d3e9f84e938d"
   dependencies:
     "@types/axios" "^0.9.34"
     "@types/bluebird" "^3.0.36"
