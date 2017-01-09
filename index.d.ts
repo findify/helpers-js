@@ -3,6 +3,7 @@ import * as FindifySDK from '@findify/findify-sdk';
 declare module "@findify/findify-helpers" {
   type Config = FindifySDK.Config;
   type Unsubscribe = () => void;
+  type User = FindifySDK.User;
 
   type AutocompleteProductData = FindifySDK.AutocompleteProduct;
   type AutocompleteSuggestionData = FindifySDK.AutocompleteSuggestion;
@@ -23,7 +24,7 @@ declare module "@findify/findify-helpers" {
     payload?: {
       itemsLimit?: number,
       suggestionsLimit?: number,
-      user?: FindifySDK.User,
+      user?: User,
     },
   };
   type AutocompleteResponseSuccessEvent = {
