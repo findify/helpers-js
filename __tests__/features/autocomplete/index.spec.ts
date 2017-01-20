@@ -22,43 +22,6 @@ describe('createAutocomplete', () => {
     beforeEach(() => {
       store.clearActions();
     });
-
-    it('should instantiated', () => {
-      const a1 = createAutocomplete({ key });
-      const a2 = createAutocomplete({
-        key,
-        user: {
-          uid: 'testUserId',
-          sid: 'testSessionId',
-        },
-      });
-    });
-
-    it('should throw an Error if configuration is not provided', () => {
-      expect(() => createAutocomplete()).toThrow(/Please, provide configuration object/);
-    });
-
-    it('should throw an Error if "key" param is not provided at config', () => {
-      expect(() => createAutocomplete({})).toThrow(/"key" param is required/);
-    });
-
-    it('should throw an Error if "user.uid" param is not provided at config', () => {
-      expect(() => createAutocomplete({
-        key,
-        user: {
-          sid: 'testSessionId',
-        },
-      })).toThrow(/"user.uid" param is required/);
-    });
-
-    it('should throw an Error if "user.sid" param is not provided at config', () => {
-      expect(() => createAutocomplete({
-        key,
-        user: {
-          uid: 'testUserId',
-        },
-      })).toThrow(/"user.sid" param is required/);
-    });
   });
 
   describe('emit', () => {
@@ -70,62 +33,6 @@ describe('createAutocomplete', () => {
 
     beforeEach(() => {
       store.clearActions();
-    });
-
-    it('should throw an Error if event is not provided', () => {
-      expect(() => autocomplete.emit()).toThrow(/Please, provide event you want to emit/);
-    });
-
-    it('should throw an Error if event "name" is not provided', () => {
-      expect(() => autocomplete.emit({})).toThrow(/Please, provide event "name"/);
-    });
-
-    it('should throw an Error if "query" param is not provided at "input" event', () => {
-      const messageRegex = /"query" param is required in "input" event/;
-
-      expect(() => autocomplete.emit({
-        name: 'input',
-      })).toThrow(messageRegex);
-
-      expect(() => autocomplete.emit({
-        name: 'input',
-        payload: {},
-      })).toThrow(messageRegex);
-    });
-
-    it('should throw an Error if "user.uid" param is not provided at "request" event', () => {
-      expect(() => autocomplete.emit({
-        name: 'request',
-        payload: {
-          user: {
-            sid: 'testSessionId',
-          },
-        },
-      })).toThrow(/"user.uid" param is required/);
-    });
-
-    it('should throw an Error if "user.sid" param is not provided at "request" event', () => {
-      expect(() => autocomplete.emit({
-        name: 'request',
-        payload: {
-          user: {
-            uid: 'testUserId',
-          },
-        },
-      })).toThrow(/"user.sid" param is required/);
-    });
-
-    it('should throw an Error if "user" param is not provided neither at configuration nor at "request" event', () => {
-      const messageRegex = /`user` param should be provided either at request or at library config/;
-
-      expect(() => autocomplete.emit({
-        name: 'request',
-        payload: {},
-      })).toThrow(messageRegex);
-
-      expect(() => autocomplete.emit({
-        name: 'request',
-      })).toThrow(messageRegex);
     });
 
     it('should dispatch "INPUT" action if "input" event was emitted', () => {
@@ -215,18 +122,6 @@ describe('createAutocomplete', () => {
       expect(methodsNames).toContain('recommendations');
       expect(methodsNames).toContain('feedback');
     });
-
-    it('should return object instance', () => {
-      expect(autocomplete.emit({
-        name: 'request',
-        payload: {
-          user: {
-            uid: 'testUserId',
-            sid: 'testSessionId',
-          },
-        },
-      })).toEqual(autocomplete);
-    });
   });
 
   describe('subscribe', () => {
@@ -239,35 +134,6 @@ describe('createAutocomplete', () => {
 
       beforeEach(() => {
         store.clearActions();
-      });
-
-      it('should throw an Error if listener function is not provided', () => {
-        expect(() => (autocomplete as any).subscribe()).toThrow(/Please, provide listener function/);
-      });
-
-      it('should throw an Error if listener param is not a function', () => {
-        expect(() => (autocomplete as any).subscribe('')).toThrow(/Listener should be a function/);
-      });
-
-      it('should return function to unsubscribe from store', () => {
-        const rootReducer = (state = {}, action) => ({ lastAction: action });
-        const reduxStore = Redux.createStore(rootReducer);
-        const autocomplete2 = makeCreateAutocomplete(reduxStore)({
-          key: 'testApiKey',
-        });
-        const spy = expect.createSpy();
-        const unsubscribe = autocomplete2.subscribe(spy);
-
-        unsubscribe();
-
-        reduxStore.dispatch({
-          type: actionTypes.INPUT,
-          payload: {
-            query: 'testQuery',
-          },
-        });
-
-        expect(spy.calls.length).toEqual(0);
       });
     });
 
