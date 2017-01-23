@@ -1,0 +1,1 @@
+export { autocompleteSpec } from './autocomplete';

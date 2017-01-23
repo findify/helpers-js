@@ -1,106 +1,20 @@
 import * as expect from 'expect';
 import * as fauxJax from 'faux-jax';
 import * as keys from 'lodash/keys';
+import * as values from 'lodash/values';
 import * as times from 'lodash/times';
-import * as index from '../../src';
+import * as specs from './specs';
 
-const publicApi: any = index;
-const methods = [{
-  name: 'createAutocomplete',
-  searchApi: {
-    endpoint: '/autocomplete',
-    successResponse: {
-      items: [{
-        id: 'testId',
-      }],
-      suggestions: [{
-        value: 'test',
-        redirect: {
-          name: 'testName',
-          url: 'testUrl',
-        },
-      }],
-      meta: {
-        rid: 'testRid',
-        q: 'testQuery',
-        suggestion_limit: 2,
-        item_limit: 3,
-      },
-    },
-  },
-  preloadEvent: {
-    name: 'input',
-    payload: {
-      query: 'test',
-    },
-  },
-  emit: {
-    validations: [{
-      event: {
-        name: 'input',
-      },
-      message: /"query" param is required in "input" event/,
-    }, {
-      event: {
-        name: 'input',
-        payload: {},
-      },
-      message: /"query" param is required in "input" event/,
-    }],
-    requests: [{
-      events: [{
-        name: 'input',
-        payload: {
-          query: 'test',
-        },
-      }, {
-        name: 'request',
-        payload: {
-          itemsLimit: 1,
-          suggestionsLimit: 2,
-        },
-      }],
-      requestBody: {
-        q: 'test',
-        item_limit: 1,
-        suggestion_limit: 2,
-      },
-    }],
-  },
-  events: [{
-    name: 'request',
-  }, {
-    name: 'request',
-    payload: {
-      user: {
-        uid: 'testUserId',
-        sid: 'testSessionId',
-      },
-    },
-  }, {
-    name: 'request',
-    payload: {
-      itemsLimit: 1,
-      suggestionsLimit: 2,
-    },
-  }, {
-    name: 'input',
-    payload: {
-      query: 'test',
-    },
-  }],
-}];
+const key = 'testKey';
+const user = {
+  uid: 'testUserId',
+  sid: 'testSessionId',
+};
 
 function assertSearchApi() {}
 
-methods.forEach((method) => {
-  const createStore = (user?) => publicApi[method.name]({
-    key: 'testApiKey',
-    user,
-  });
-  const createPreloadedStore = (user?) => createStore(user).emit(method.preloadEvent);
-
-  describe(method.name, () => {
+values(specs).forEach((spec: any) => {
+  describe(spec.name, () => {
     beforeEach(() => {
       fauxJax.install();
     });
@@ -111,42 +25,35 @@ methods.forEach((method) => {
 
     describe('generic', () => {
       it('should return store instance', () => {
-        const store = publicApi[method.name]({
-          key: 'testKey',
-        });
+        const store = spec.createStore({ key, user });
 
         expect(keys(store)).toEqual(['emit', 'subscribe', 'get']);
       });
 
       it('should not throw when all required params are passed', () => {
-        expect(() => publicApi[method.name]({
-          key: 'testKey',
-        })).toNotThrow();
+        expect(() => spec.createStore({ key })).toNotThrow();
       });
 
       it('should not throw when all params are passed', () => {
-        expect(() => publicApi[method.name]({
-          key: 'testKey',
-          user: {
-            uid: 'testUserId',
-            sid: 'testSessionId',
-          },
+        expect(() => spec.createStore({
+          key,
+          user,
           method: 'post',
           log: true,
         })).toNotThrow();
       });
 
       it('should throw an Error if configuration is not provided', () => {
-        expect(() => publicApi[method.name]()).toThrow(/Please, provide configuration object/);
+        expect(() => spec.createStore()).toThrow(/Please, provide configuration object/);
       });
 
       it('should throw an Error if "key" param is not provided at config', () => {
-        expect(() => publicApi[method.name]({})).toThrow(/"key" param is required/);
+        expect(() => spec.createStore({})).toThrow(/"key" param is required/);
       });
 
       it('should throw an Error if "user.uid" param is not provided at config', () => {
-        expect(() => publicApi[method.name]({
-          key: 'testKey',
+        expect(() => spec.createStore({
+          key,
           user: {
             sid: 'testSessionId',
           },
@@ -154,8 +61,8 @@ methods.forEach((method) => {
       });
 
       it('should throw an Error if "user.sid" param is not provided at config', () => {
-        expect(() => publicApi[method.name]({
-          key: 'testKey',
+        expect(() => spec.createStore({
+          key,
           user: {
             uid: 'testUserId',
           },
@@ -164,149 +71,108 @@ methods.forEach((method) => {
     });
 
     describe('store', () => {
-      const user = {
-        uid: 'testUserId',
-        sid: 'testSessionId',
-      };
-
       describe('emit', () => {
         it('should throw an Error if event is not provided', () => {
-          const store = createStore();
+          const store = spec.createStore({ key, user });
 
           expect(() => store.emit()).toThrow(/Please, provide event you want to emit/);
         });
 
         it('should throw an Error if event "name" is not provided', () => {
-          const store = createStore();
+          const store = spec.createStore({ key, user });
 
           expect(() => store.emit({})).toThrow(/Please, provide event "name"/);
         });
 
-        it('should not throw an Error if "user" param was passed on library init and payload is not provided', () => {
-          const store = publicApi[method.name]({
-            key: 'testApiKey',
-            user,
-          });
+        it('should not throw an Error if "user" param was passed on library init', () => {
+          const store = spec.createStore({ key, user });
 
-          expect(() => store.emit(method.preloadEvent).emit({
-            name: 'request',
-          })).toNotThrow();
-        });
-
-        it('should not throw an Error if "user" param was passed on library init and payload is provided', () => {
-          const store = publicApi[method.name]({
-            key: 'testApiKey',
-            user,
-          });
-
-          expect(() => store.emit(method.preloadEvent).emit({
-            name: 'request',
-            payload: {},
-          })).toNotThrow();
+          expect(() => store.emit(spec.events.validEvent).emit(spec.events.requestEvent)).toNotThrow();
         });
 
         it('should not throw an Error if "user" param was passed at "request" event', () => {
-          const store = createPreloadedStore();
+          const store = spec.createStore({ key });
+          // check that user is sending to server
+          // test user overriding case
 
-          expect(() => store.emit({
-            name: 'request',
-            payload: {
-              user,
-            },
-          })).toNotThrow();
+          expect(() => store.emit(spec.events.validEvent).emit(
+            extendRequestEvent(spec.events.requestEvent, { user })
+          )).toNotThrow();
         });
 
         it('should throw an Error if "user.uid" param is not provided at "request" event', () => {
-          const store = createPreloadedStore();
+          const store = spec.createStore({ key });
 
-          expect(() => store.emit({
-            name: 'request',
-            payload: {
+          expect(() => store.emit(spec.events.validEvent).emit(
+            extendRequestEvent(spec.events.requestEvent, {
               user: {
                 sid: 'testSessionId',
               },
-            },
-          })).toThrow(/"user.uid" param is required/);
+            })
+          )).toThrow(/"user.uid" param is required/);
         });
 
         it('should throw an Error if "user.sid" param is not provided at "request" event', () => {
-          const store = createPreloadedStore();
+          const store = spec.createStore({ key });
 
-          expect(() => store.emit({
-            name: 'request',
-            payload: {
+          expect(() => store.emit(spec.events.validEvent).emit(
+            extendRequestEvent(spec.events.requestEvent, {
               user: {
                 uid: 'testUserId',
               },
-            },
-          })).toThrow(/"user.sid" param is required/);
+            })
+          )).toThrow(/"user.sid" param is required/);
         });
 
         it('should throw an Error if "user" param is not provided neither at configuration nor at "request" event', () => {
-          const store = createPreloadedStore();
-          const messageRegex = /`user` param should be provided either at request or at library config/;
+          const store = spec.createStore({ key });
 
-          expect(() => store.emit({
-            name: 'request',
-            payload: {},
-          })).toThrow(messageRegex);
-
-          expect(() => store.emit({
-            name: 'request',
-          })).toThrow(messageRegex);
+          expect(() => store.emit(spec.events.validEvent).emit(spec.events.requestEvent)).toThrow(
+            /`user` param should be provided either at request or at library config/
+          );
         });
 
         it('should return store object instance', () => {
-          const store = createPreloadedStore();
+          const store = spec.createStore({ key, user });
 
-          expect(store.emit({
-            name: 'request',
-            payload: {
-              user: {
-                uid: 'testUserId',
-                sid: 'testSessionId',
-              },
-            },
-          })).toEqual(store);
+          expect(store.emit(spec.events.validEvent)).toEqual(store);
         });
 
-        it(`should send request to ${method.searchApi.endpoint} endpoint`, (done) => {
-          const store = createPreloadedStore();
+        it(`should send request to ${spec.searchApi.endpoint} endpoint`, (done) => {
+          const store = spec.createStore({ key, user });
 
           fauxJax.on('request', (req) => {
-            expect(req.requestURL).toMatch(/\/autocomplete/);
+            const regex = new RegExp(spec.searchApi.endpoint);
+            expect(req.requestURL).toMatch(regex);
             done();
           });
 
-          store.emit({
-            name: 'request',
-            payload: {
-              user,
-            },
-          });
+          store.emit(spec.events.validEvent).emit(spec.events.requestEvent);
         });
 
-        method.emit.validations.forEach((v) => {
-          const eventStr = JSON.stringify(v.event);
+        spec.emit.validations.forEach((v) => {
+          const event = JSON.stringify(v.event);
 
-          it(`should throw an Error if ${eventStr} was dispatched`, () => {
-            const store = createStore();
+          it(`should throw an Error if ${event} was dispatched`, () => {
+            const store = spec.createStore({ key, user });
             expect(() => store.emit(v.event)).toThrow(v.message);
           });
         });
 
-        method.emit.requests.forEach((r) => {
+        spec.emit.requests.forEach((r) => {
           const reqBodyStr = JSON.stringify(r.requestBody);
           const eventsStr = JSON.stringify(r.events);
 
           it(`should send ${reqBodyStr} request body if ${eventsStr} events are emitted`, (done) => {
-            const store = createStore(user);
+            const store = spec.createStore({ key, user });
 
             fauxJax.on('request', (req) => {
+              // use searchApi assertions if future
               expect(JSON.parse(req.requestBody)).toContain(r.requestBody);
               done();
             });
 
+            // problem
             r.events.forEach(store.emit);
           });
         });
@@ -314,69 +180,118 @@ methods.forEach((method) => {
 
       describe('subscribe', () => {
         it('should throw an Error if listener function is not provided', () => {
-          const store = createStore();
+          const store = spec.createStore({ key, user });
 
           expect(() => store.subscribe()).toThrow(/Please, provide listener function/);
         });
 
         it('should throw an Error if listener param is not a function', () => {
-          const store = createStore();
+          const store = spec.createStore({ key, user });
 
           expect(() => store.subscribe('')).toThrow(/Listener should be a function/);
         });
 
         it('should return function to unsubscribe from store', () => {
-          const store = createStore();
+          const store = spec.createStore({ key, user });
           const spy = expect.createSpy();
           const unsubscribe = store.subscribe(spy);
 
           unsubscribe();
 
-          store.emit(method.preloadEvent);
+          store.emit(spec.events.validEvent);
 
           expect(spy.calls.length).toEqual(0);
         });
 
-        method.events.forEach((event: any) => {
+        spec.subscribe.successEvents.forEach((event: any) => {
           const payloadText = event.payload ? ` with ${JSON.stringify(event)} payload` : '';
 
           if (event.name === 'request') {
             it(`should notify listeners twise, when "request" event was emitted${payloadText}` +
               ` and server responded with success`, (done) => {
-              const store = createPreloadedStore(user);
+              const store = spec.createStore({ key, user });
               const spy = expect.createSpy();
 
               fauxJax.on('request', (req) => {
                 req.respond(200, {
                   'Content-Type': 'application/json',
-                }, JSON.stringify(method.searchApi.successResponse));
+                }, JSON.stringify(spec.searchApi.successResponse));
               });
 
+              // get rid of setTimeout
               setTimeout(() => {
-                expect(spy.calls.length).toBe(2);
-                expect(spy.calls[0].arguments).toEqual([event])
-                expect(spy.calls[1].arguments).toEqual([{
+                expect(spy.calls.length).toBe(3);
+                expect(spy.calls[0].arguments).toEqual([spec.events.validEvent]);
+                expect(spy.calls[1].arguments).toEqual([event]);
+                expect(spy.calls[2].arguments).toEqual([{
                   name: 'responseSuccess',
                 }]);
+                unsubscribe();
                 done();
               }, 100);
 
-              store.subscribe(spy);
-              store.emit(event);
+              const unsubscribe = store.subscribe(spy);
+              store.emit(spec.events.validEvent).emit(event);
             });
           } else {
             it(`should notify the listeners when ${event.name} event was emitted${payloadText}`, () => {
-              const store = createStore();
+              const store = spec.createStore({ key, user });
               const spy = expect.createSpy();
 
-              store.subscribe(spy);
+              const usubuscribe = store.subscribe(spy);
               store.emit(event);
 
               expect(spy.calls.length).toEqual(1);
+              expect(spy.calls[0].arguments).toEqual([event]);
+              usubuscribe();
             });
           }
+        });
+      });
+
+      describe('get', () => {
+        spec.get.names.forEach((n) => {
+          it(`should return corresponding data when trying to get "${n.name}" if it's exists`, (done) => {
+            const store = spec.createStore({ key, user });
+
+            fauxJax.on('request', (req) => {
+              req.respond(200, {
+                'Content-Type': 'application/json',
+              }, JSON.stringify(n.successResponse));
+            });
+
+            n.emittingEvents.forEach(store.emit);
+
+            const unsubscribe = store.subscribe((event) => {
+              if (event.name === 'responseSuccess') {
+                if (typeof n.expectingPositiveResult !== 'function') {
+                  expect(store.get(n.name)).toEqual(n.expectingPositiveResult);
+                } else {
+                  n.expectingPositiveResult(store.get(n.name));
+                }
+
+                unsubscribe();
+                done();
+              }
+            });
+          });
+
+          it(`return "${JSON.stringify(n.expectingNegativeResult)}" when trying to get "${n.name} if it's not exists`, () => {
+            const store = spec.createStore({ key, user });
+            expect(store.get(n.name)).toEqual(n.expectingNegativeResult);
+          });
         });
       });
     });
   });
 });
+
+function extendRequestEvent(requestEvent, payload) {
+  return {
+    ...requestEvent,
+    payload: {
+      ...requestEvent.payload,
+      ...payload,
+    },
+  };
+}
