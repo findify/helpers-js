@@ -248,37 +248,45 @@ values(specs).forEach((spec: any) => {
         });
       });
 
-      // change interface of spec, to be able provide list of events, and get result like in `emit`
       describe('get', () => {
-        spec.get.names.forEach((n) => {
-          it(`should return corresponding data when trying to get "${n.name}" if it's exists`, (done) => {
+        spec.get.forEach((n) => {
+          const eventsText = n.events ? ` after emitting "${JSON.stringify(n.events)}" events` : '';
+          const resultText = typeof n.result === 'undefined' ? 'undefined' : JSON.stringify(n.result);
+
+          it(`should return ${resultText} when trying to get "${n.name}"`, (done) => {
             const store = spec.createStore({ key, user });
-
-            fauxJax.on('request', (req) => {
-              req.respond(200, {
-                'Content-Type': 'application/json',
-              }, JSON.stringify(n.successResponse));
-            });
-
-            n.emittingEvents.forEach(store.emit);
-
-            const unsubscribe = store.subscribe((event) => {
-              if (event.name === 'responseSuccess') {
-                if (typeof n.expectingPositiveResult !== 'function') {
-                  expect(store.get(n.name)).toEqual(n.expectingPositiveResult);
-                } else {
-                  n.expectingPositiveResult(store.get(n.name));
-                }
-
-                unsubscribe();
-                done();
+            const hasRequest = n.events && n.events.filter((event) => event.name === 'request').length > 0;
+            const check = () => {
+              if (typeof n.result !== 'function') {
+                expect(store.get(n.name)).toEqual(n.result);
+              } else {
+                n.result(store.get(n.name));
               }
-            });
-          });
+              done();
+            };
 
-          it(`return "${JSON.stringify(n.expectingNegativeResult)}" when trying to get "${n.name} if it's not exists`, () => {
-            const store = spec.createStore({ key, user });
-            expect(store.get(n.name)).toEqual(n.expectingNegativeResult);
+            if (n.successResponse && hasRequest) {
+              fauxJax.on('request', (req) => {
+                req.respond(200, {
+                  'Content-Type': 'application/json',
+                }, JSON.stringify(n.successResponse));
+              });
+            }
+
+            if (n.events) {
+              n.events.forEach(store.emit);
+            }
+
+            if (hasRequest) {
+              const unsubscribe = store.subscribe((event) => {
+                if (event.name === 'responseSuccess') {
+                  unsubscribe();
+                  check();
+                }
+              });
+            } else {
+              check();
+            }
           });
         });
       });

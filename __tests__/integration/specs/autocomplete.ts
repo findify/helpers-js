@@ -114,40 +114,71 @@ const autocompleteSpec = {
       },
     }],
   },
-  get: {
-    names: [{
-      name: 'products',
-      expectingPositiveResult: successResponse.items,
-      expectingNegativeResult: undefined,
-      emittingEvents,
-      successResponse,
-    }, {
-      name: 'suggestions',
-      expectingPositiveResult: successResponse.suggestions,
-      expectingNegativeResult: undefined,
-      emittingEvents,
-      successResponse,
-    }, {
-      name: 'meta',
-      expectingPositiveResult: function(result) {
-        expect(result.lastUpdated).toBeA('number');
-        expect(omit(result, ['lastUpdated'])).toEqual({
-          isFetching: false,
-        });
+  get: [{
+    name: 'products',
+    events: [{
+      name: 'input',
+      payload: {
+        query: 'test',
       },
-      expectingNegativeResult: {
+    }, {
+      name: 'request',
+    }],
+    result: successResponse.items,
+    successResponse,
+  }, {
+    name: 'products',
+    result: undefined,
+  }, {
+    name: 'suggestions',
+    events: [{
+      name: 'input',
+      payload: {
+        query: 'test',
+      },
+    }, {
+      name: 'request',
+    }],
+    result: successResponse.suggestions,
+    successResponse,
+  }, {
+    name: 'suggestions',
+    result: undefined,
+  }, {
+    name: 'meta',
+    events: [{
+      name: 'input',
+      payload: {
+        query: 'test',
+      },
+    }, {
+      name: 'request',
+    }],
+    result: function(result) {
+      expect(result.lastUpdated).toBeA('number');
+      expect(omit(result, ['lastUpdated'])).toEqual({
         isFetching: false,
+      });
+    },
+    successResponse,
+  }, {
+    name: 'meta',
+    result: {
+      isFetching: false,
+    },
+  }, {
+    name: 'query',
+    events: [{
+      name: 'input',
+      payload: {
+        query: 'test',
       },
-      emittingEvents,
-      successResponse,
-    }, {
-      name: 'query',
-      expectingPositiveResult: autocompleteQuery,
-      expectingNegativeResult: undefined,
-      emittingEvents,
-      successResponse,
-    }]
-  },
+    }],
+    result: 'test',
+  }, {
+    name: 'query',
+    result: undefined,
+  }],
 };
 
 export { autocompleteSpec }
