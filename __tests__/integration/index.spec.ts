@@ -172,7 +172,6 @@ values(specs).forEach((spec: any) => {
               done();
             });
 
-            // problem
             r.events.forEach(store.emit);
           });
         });
