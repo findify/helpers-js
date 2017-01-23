@@ -248,6 +248,7 @@ values(specs).forEach((spec: any) => {
         });
       });
 
+      // change interface of spec, to be able provide list of events, and get result like in `emit`
       describe('get', () => {
         spec.get.names.forEach((n) => {
           it(`should return corresponding data when trying to get "${n.name}" if it's exists`, (done) => {
