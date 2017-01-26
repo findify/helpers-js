@@ -1,5 +1,59 @@
 import { createSearch } from '../../../src';
 
+const successResponse = {
+  meta: {
+    rid: 'testRid',
+    q: 'testQ',
+    no_result: false,
+    corrected_q: 'testQ',
+    filters: [{
+      name: 'testFilterName',
+      type: 'testFilterType',
+      values: [{
+        value: 'someTestValue',
+      }],
+    }],
+    sort: [{
+      field: 'testSortField',
+      order: 'testSortOrder',
+    }],
+    limit: 24,
+    offset: 48,
+    total: 96,
+  },
+  redirect: {
+    name: 'testRedirectName',
+    url: 'testRedirectUrl',
+  },
+  banner: {
+    products: {
+      image_url: 'testBannerImageUrl',
+      target_url: 'testBannerTargetUrl',
+    },
+  },
+  items: [{
+    id: 'testProductId',
+  }],
+  facets: [{
+    name: 'testFacetName',
+    type: 'testFacetType',
+    sort_type: 'testFacetSortType',
+    values: [{
+      selected: true,
+      value: 'someTestValue',
+      count: 3,
+      name: 'test',
+      has_children: false,
+    }, {
+      selected: false,
+      value: 'someTestValue',
+      count: 3,
+      name: 'test2',
+      has_children: false,
+    }],
+  }],
+};
+
 const searchSpec = {
   createStore: function(args) {
     return createSearch(args);
@@ -7,7 +61,7 @@ const searchSpec = {
   name: 'createSearch',
   searchApi: {
     endpoint: '/search',
-    successResponse: successResponse(),
+    successResponse,
   },
   events: {
     requestEvent: {
@@ -35,89 +89,76 @@ const searchSpec = {
   subscribe: {
     successEvents: subscribeSuccessEvents(),
   },
-  // will change interface
-  get: {
-    names: [],
-    // names: [{
-    //   name: 'redirect',
-    //   expectingPositiveResult: successResponse().redirect,
-    //   expectingNegativeResult: undefined,
-    //   emittingEvents: simpleRequestEvent(),
-    //   successResponse: successResponse(),
-    // }, {
-
-    // }, {
-      // name: 'meta',
-      // expectingPositiveResult: function(result) {
-      //   expect(result.lastUpdated).toBeA('number');
-      //   expect(omit(result, ['lastUpdated'])).toEqual({
-      //     isFetching: false,
-      //   });
-      // },
-      // expectingNegativeResult: {
-      //   isFetching: false,
-      // },
-      // emittingEvents,
-      // successResponse,
-    // }]
-  },
-};
-
-function successResponse() {
-  return {
-    meta: {
-      rid: 'testRid',
-      q: 'testQ',
-      no_result: false,
-      corrected_q: 'testQ',
-      filters: [{
-        name: 'testFilterName',
-        type: 'testFilterType',
-        values: [{
-          value: 'someTestValue',
-        }],
-      }],
-      sort: [{
-        field: 'testSortField',
-        order: 'testSortOrder',
-      }],
-      limit: 24,
-      offset: 0,
-      total: 200,
-    },
-    redirect: {
-      name: 'testRedirectName',
-      url: 'testRedirectUrl',
-    },
-    banner: {
-      products: {
-        image_url: 'testBannerImageUrl',
-        target_url: 'testBannerTargetUrl',
+  get: [{
+    name: 'query',
+    events: [{
+      name: 'search',
+      payload: {
+        query: 'test',
       },
+    }],
+    result: 'test',
+  }, {
+    name: 'query',
+    result: undefined,
+  }, {
+    name: 'sort',
+    events: [{
+      name: 'changeSorting',
+      payload: {
+        field: 'test',
+        order: 'asc',
+      },
+    }],
+    result: {
+      field: 'test',
+      order: 'asc',
     },
-    items: [{
-      id: 'testProductId',
+  }, {
+    name: 'sort',
+    result: undefined,
+  }, {
+    name: 'items',
+    events: [{
+      name: 'request',
     }],
-    facets: [{
-      name: 'testFacetName',
-      type: 'testFacetType',
-      sort_type: 'testFacetSortType',
-      values: [{
-        selected: true,
-        value: 'someTestValue',
-        count: 3,
-        name: 'test',
-        has_children: false,
-      }, {
-        selected: false,
-        value: 'someTestValue',
-        count: 3,
-        name: 'test2',
-        has_children: false,
-      }],
+    result: successResponse.items,
+    successResponse,
+  }, {
+    name: 'items',
+    result: undefined,
+  }, {
+    name: 'currentPage',
+    events: [{
+      name: 'request',
     }],
-  };
-}
+    result: 3,
+    successResponse,
+  }, {
+    name: 'currentPage',
+    result: undefined,
+  }, {
+    name: 'pagesLength',
+    events: [{
+      name: 'request',
+    }],
+    successResponse,
+    result: 4,
+  }, {
+    name: 'pagesLength',
+    result: undefined,
+  }, {
+    name: 'facets',
+    events: [{
+      name: 'request',
+    }],
+    successResponse,
+    result: successResponse.facets,
+  }, {
+    name: 'facets',
+    result: undefined,
+  }],
+};
 
 function emitValidations() {
   return [{
@@ -684,12 +725,6 @@ function subscribeSuccessEvents() {
       to: 15,
     },
   }];
-}
-
-function simpleRequestEvent() {
-  return [{
-    name: 'request',
-  }]
 }
 
 export {
