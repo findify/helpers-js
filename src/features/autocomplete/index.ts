@@ -25,10 +25,9 @@ import {
 
 import {
   getLastAction,
-  getProducts,
-  getSuggestions,
-  getQuery,
-  getMeta,
+  getRequestData,
+  getResponseData,
+  getResponseMeta,
   State as ReduxState,
 } from './reducers';
 
@@ -94,10 +93,9 @@ function create(config: Config) {
         const state = reduxStore.getState();
 
         switch (name) {
-          case stateNames.products: return runSafe(() => getProducts(state));
-          case stateNames.suggestions: return runSafe(() => getSuggestions(state));
-          case stateNames.query: return runSafe(() => getQuery(state));
-          case stateNames.meta: return runSafe(() => getMeta(state));
+          case stateNames.request: return runSafe(() => getRequestData(state));
+          case stateNames.response: return runSafe(() => getResponseData(state));
+          case stateNames.responseMeta: return runSafe(() => getResponseMeta(state));
         }
       },
     };

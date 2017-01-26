@@ -3,7 +3,7 @@ import * as assign from 'lodash/assign';
 import { combineReducers as combine } from 'redux';
 
 import { Action } from '../actions';
-import { ResponseMeta, RequestMeta } from '../../../generic/types';
+import { ResponseMeta } from '../../../generic/types';
 import { actionTypes } from '../constants/actionTypes';
 import { makeObjectSafe } from '../../../generic/utils/makeObjectSafe';
 
@@ -17,15 +17,6 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
       suggestion_limit: () => action.payload.suggestionsLimit,
       user: () => action.payload.user,
     }));
-    default: return state;
-  }
-}
-
-function requestMetaReducer(state: RequestMetaState = initialRequestMetaState, action) {
-  switch (action.type) {
-    case actionTypes.REQUEST_TIME_UPDATE: return assign({}, state, {
-      lastUpdated: action.payload.time,
-    });
     default: return state;
   }
 }
@@ -59,7 +50,6 @@ function lastActionReducer(state: Action = initialLastActionState, action: Actio
 }
 
 const initialRequestDataState = {} as any;
-const initialRequestMetaState = {};
 const initialResponseDataState = {} as any;
 const initialResponseMetaState = {
   isFetching: false,
@@ -67,18 +57,13 @@ const initialResponseMetaState = {
 const initialLastActionState = {} as any;
 
 const getRequestData = (state: State) => state.request.data;
+const getResponseData = (state: State) => state.response.data;
+const getResponseMeta = (state: State) => state.response.meta;
 const getLastAction = (state: State) => state.lastAction;
-// temp change. in future property will be `items`
-const getProducts = (state: State) => (state as any).response.data.items;
-//
-const getSuggestions = (state: State) => state.response.data.suggestions;
-const getQuery = (state: State) => state.request.data.q;
-const getMeta = (state: State) => state.response.meta;
 
 const rootReducer = combine<State>({
   request: combine({
     data: requestDataReducer,
-    meta: requestMetaReducer,
   }),
   response: combine({
     data: responseDataReducer,
@@ -88,13 +73,11 @@ const rootReducer = combine<State>({
 });
 
 type RequestDataState = FindifySDK.AutocompleteRequest;
-type RequestMetaState = RequestMeta;
 type ResponseDataState = FindifySDK.AutocompleteResponse;
 type ResponseMetaState = ResponseMeta;
 
 type State = {
   request: {
-    meta?: RequestMetaState,
     data?: RequestDataState,
   },
   response: {
@@ -108,9 +91,7 @@ export {
   State,
   rootReducer,
   getRequestData,
+  getResponseData,
+  getResponseMeta,
   getLastAction,
-  getProducts,
-  getSuggestions,
-  getQuery,
-  getMeta,
 }

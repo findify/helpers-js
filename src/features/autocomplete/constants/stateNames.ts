@@ -1,8 +1,7 @@
 const stateNames = {
-  products: 'products',
-  suggestions: 'suggestions',
-  query: 'query',
-  meta: 'meta',
+  response: 'response',
+  request: 'request',
+  responseMeta: 'responseMeta',
 };
 
 export {

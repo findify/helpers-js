@@ -115,7 +115,38 @@ const autocompleteSpec = {
     }],
   },
   get: [{
-    name: 'products',
+    name: 'request',
+    events: [{
+      name: 'input',
+      payload: {
+        query: 'test',
+      },
+    }, {
+      name: 'request',
+      payload: {
+        itemsLimit: 1,
+        suggestionsLimit: 5,
+        user: {
+          uid: 'testUserId',
+          sid: 'testSessionId',
+        },
+      },
+    }],
+    result: {
+      q: 'test',
+      item_limit: 1,
+      suggestion_limit: 5,
+      user: {
+        uid: 'testUserId',
+        sid: 'testSessionId',
+      },
+    },
+    successResponse,
+  }, {
+    name: 'request',
+    result: {},
+  }, {
+    name: 'response',
     events: [{
       name: 'input',
       payload: {
@@ -124,28 +155,18 @@ const autocompleteSpec = {
     }, {
       name: 'request',
     }],
-    result: successResponse.items,
+    result: successResponse,
     successResponse,
   }, {
-    name: 'products',
-    result: undefined,
+    name: 'response',
+    result: {},
   }, {
-    name: 'suggestions',
-    events: [{
-      name: 'input',
-      payload: {
-        query: 'test',
-      },
-    }, {
-      name: 'request',
-    }],
-    result: successResponse.suggestions,
-    successResponse,
+    name: 'responseMeta',
+    result: {
+      isFetching: false,
+    },
   }, {
-    name: 'suggestions',
-    result: undefined,
-  }, {
-    name: 'meta',
+    name: 'responseMeta',
     events: [{
       name: 'input',
       payload: {
@@ -156,28 +177,10 @@ const autocompleteSpec = {
     }],
     result: function(result) {
       expect(result.lastUpdated).toBeA('number');
-      expect(omit(result, ['lastUpdated'])).toEqual({
-        isFetching: false,
-      });
+      expect(result.isFetching).toEqual(false);
+      expect(result.error).toEqual(undefined);
     },
     successResponse,
-  }, {
-    name: 'meta',
-    result: {
-      isFetching: false,
-    },
-  }, {
-    name: 'query',
-    events: [{
-      name: 'input',
-      payload: {
-        query: 'test',
-      },
-    }],
-    result: 'test',
-  }, {
-    name: 'query',
-    result: undefined,
   }],
 };
 

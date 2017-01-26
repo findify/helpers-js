@@ -8,7 +8,6 @@ import { actionTypes } from '../../../../src/features/autocomplete/constants/act
 const reducers = rewire('../../../../src/features/autocomplete/reducers');
 
 const requestDataReducer = reducers.__get__('requestDataReducer');
-const requestMetaReducer = reducers.__get__('requestMetaReducer');
 const responseDataReducer = reducers.__get__('responseDataReducer');
 const responseMetaReducer = reducers.__get__('responseMetaReducer');
 const lastActionReducer = reducers.__get__('lastActionReducer');
@@ -18,7 +17,6 @@ describe('autocomplete reducers', () => {
     it('should return initial state if previous state is not provided', () => {
       expect(rootReducer(undefined, {} as any)).toEqual({
         request: {
-          meta: {},
           data: {},
         },
         response: {
@@ -74,25 +72,6 @@ describe('autocomplete reducers', () => {
       expect(requestDataReducer(prevState, {
         type: actionTypes.REQUEST,
       })).toEqual({});
-    });
-  });
-
-  describe('requestMetaReducer', () => {
-    const prevState = {};
-
-    deepFreeze(prevState);
-
-    it('should handle REQUEST_TIME_UPDATE action', () => {
-      const time = 1;
-
-      expect(requestMetaReducer(prevState, {
-        type: actionTypes.REQUEST_TIME_UPDATE,
-        payload: {
-          time,
-        },
-      })).toEqual({
-        lastUpdated: time,
-      });
     });
   });
 
