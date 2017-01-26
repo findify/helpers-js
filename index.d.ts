@@ -5,13 +5,8 @@ declare module "@findify/findify-helpers" {
   type Unsubscribe = () => void;
   type User = FindifySDK.User;
 
-  type AutocompleteProductData = FindifySDK.AutocompleteProduct;
-  type AutocompleteSuggestionData = FindifySDK.AutocompleteSuggestion;
-  type AutocompleteMetaData = {
-    isFetching: boolean,
-    lastUpdated?: number,
-    error?: string,
-  };
+  type AutocompleteServerRequest = FindifySDK.AutocompleteRequest;
+  type AutocompleteServerResponse = FindifySDK.AutocompleteResponse;
 
   type AutocompleteInputEvent = {
     name: 'input',
@@ -48,10 +43,8 @@ declare module "@findify/findify-helpers" {
   type AutocompleteStore = {
     emit: (event: AutocompleteEmitEvent) => AutocompleteStore,
     subscribe(listener: AutocompleteSubscribeListener): Unsubscribe,
-    get(name: 'products'): AutocompleteProductData[],
-    get(name: 'suggestions'): AutocompleteSuggestionData[],
-    get(name: 'meta'): AutocompleteMetaData,
-    get(name: 'query'): string,
+    get(name: 'request'): AutocompleteServerRequest,
+    get(name: 'response'): AutocompleteServerResponse,
   };
 
   function createAutocomplete(config: Config): AutocompleteStore;
