@@ -15,11 +15,6 @@ type SubscribeListener<E> = (event: E) => void;
 
 type Unsubscribe = () => void;
 
-type Event<N, P> = {
-  name: N,
-  payload?: P,
-};
-
 type ResponseMeta = {
   isFetching: boolean,
   lastUpdated?: number,
@@ -37,7 +32,6 @@ export {
   Config,
   RequestMeta,
   ResponseMeta,
-  Event,
   SubscribeListener,
   Unsubscribe,
 };

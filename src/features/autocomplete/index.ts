@@ -3,7 +3,6 @@ import * as Redux from 'redux';
 
 import {
   StateName,
-  StateResult,
   InputEvent,
   RequestEvent,
   ResponseSuccessEvent,
@@ -11,7 +10,6 @@ import {
 } from './types';
 
 import {
-  Store as GenericStore,
   Config,
   SubscribeListener,
 } from '../../generic/types';
@@ -28,7 +26,6 @@ import {
   getRequestData,
   getResponseData,
   getResponseMeta,
-  State as ReduxState,
 } from './reducers';
 
 import { rootReducer } from './reducers';
@@ -111,8 +108,6 @@ function createEvent<E>(name, payload?): E {
   } as any;
 }
 
-type Store = GenericStore<EmitEvent, SubscribeEvent, StateName, StateResult>;
-
 type EmitEvent = (
   InputEvent |
   RequestEvent
@@ -127,7 +122,4 @@ type SubscribeEvent = (
 
 export {
   create,
-  Store,
-  SubscribeEvent,
-  EmitEvent,
 }
