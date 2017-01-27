@@ -15,23 +15,34 @@ type SubscribeListener<E> = (event: E) => void;
 
 type Unsubscribe = () => void;
 
+type ResponseSuccessEvent = {
+  name: 'responseSuccess',
+};
+type ResponseFailureEvent = {
+  name: 'responseFailure',
+};
+
 type ResponseMeta = {
   isFetching: boolean,
   lastUpdated?: number,
   error?: string,
 };
 
-type RequestMeta = {
-  lastUpdated?: number,
-};
+type StateName = (
+  'request' |
+  'response' |
+  'responseMeta'
+);
 
 type Config = FindifySDK.Config;
 
 export {
   Store,
   Config,
-  RequestMeta,
   ResponseMeta,
   SubscribeListener,
   Unsubscribe,
+  ResponseSuccessEvent,
+  ResponseFailureEvent,
+  StateName,
 };

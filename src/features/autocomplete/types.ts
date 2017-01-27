@@ -14,23 +14,8 @@ type RequestEvent = {
     user?: FindifySDK.User,
   },
 };
-type ResponseSuccessEvent = {
-  name: 'responseSuccess',
-};
-type ResponseFailureEvent = {
-  name: 'responseFailure',
-};
-
-type StateName = (
-  'request' |
-  'response' |
-  'responseMeta'
-);
 
 export {
   InputEvent,
   RequestEvent,
-  ResponseSuccessEvent,
-  ResponseFailureEvent,
-  StateName,
 };

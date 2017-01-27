@@ -1,17 +1,14 @@
-import * as FindifySDK from '@findify/findify-sdk';
-import * as Redux from 'redux';
-
 import {
-  StateName,
   InputEvent,
   RequestEvent,
-  ResponseSuccessEvent,
-  ResponseFailureEvent,
 } from './types';
 
 import {
   Config,
+  StateName,
   SubscribeListener,
+  ResponseSuccessEvent,
+  ResponseFailureEvent,
 } from '../../generic/types';
 
 import {
@@ -22,19 +19,20 @@ import {
 } from './actions';
 
 import {
+  rootReducer,
   getLastAction,
   getRequestData,
   getResponseData,
   getResponseMeta,
 } from './reducers';
 
-import { rootReducer } from './reducers';
 import { rootSaga } from './sagas';
 import { actionTypes } from './constants/actionTypes';
 import { eventsNames } from './constants/eventsNames';
-import { stateNames } from './constants/stateNames';
 import { runSafe } from '../../generic/utils/runSafe';
 import { isExists } from '../../generic/utils/isExists';
+import { stateNames } from '../../generic/constants/stateNames';
+import { createEvent } from '../../generic/utils/createEvent';
 import { createStore } from '../../generic/helpers/createStore';
 
 // avoid names duplication between redux state/store and lib state/store
@@ -99,23 +97,13 @@ function create(config: Config) {
   });
 }
 
-function createEvent<E>(name, payload?): E {
-  return !payload ? {
-    name,
-  } as any : {
-    name,
-    payload,
-  } as any;
-}
-
 type EmitEvent = (
   InputEvent |
   RequestEvent
 );
 
 type SubscribeEvent = (
-  InputEvent |
-  RequestEvent |
+  EmitEvent |
   ResponseSuccessEvent |
   ResponseFailureEvent
 );
