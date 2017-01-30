@@ -61,32 +61,66 @@ declare module "@findify/findify-helpers" {
       page: number,
     },
   };
-  type ResultsChangeSortingEvent = {
-    name: 'changeSorting',
+  type ResultsSetSortingEvent = {
+    name: 'setSorting',
     payload: {
       field: string,
       order: string,
     },
   };
-  type ResultsToggleNestedListFacetEvent = {
-    name: 'toggleNestedListFacet',
+  type ResultsUnsetSortingEvent = {
+    name: 'unsetSorting',
+    payload: {
+      field: string,
+    },
+  };
+  type ResultsSetNestedListFacetEvent = {
+    name: 'setNestedListFacet',
     payload: {
       name: string,
       value: string,
     },
   };
-  type ResultsToggleTextFacetEvent = {
-    name: 'toggleTextFacetEvent',
+  type ResultsUnsetNestedListFacetEvent = {
+    name: 'unsetNestedListFacet',
     payload: {
       name: string,
       value: string,
     },
   };
-  type ResultsToggleRangeFacetEvent = {
-    name: 'toggleRangleFacetEvent',
+  type ResultsSetTextFacetEvent = {
+    name: 'setTextFacetEvent',
     payload: {
       name: string,
       value: string,
+    },
+  };
+  type ResultsUnsetTextFacetEvent = {
+    name: 'unsetTextFacetEvent',
+    payload: {
+      name: string,
+      value: string,
+    },
+  };
+  type ResultsSetRangeFacetEvent = {
+    name: 'setRangeFacetEvent',
+    payload: {
+      from?: number,
+      to?: number,
+    },
+  };
+  type ResultsUnsetRangeFacetEvent = {
+    name: 'unsetRangeFacetEvent',
+    payload: {
+      from?: number,
+      to?: number,
+    },
+  };
+  type ResultsRequestEvent = {
+    name: 'request',
+    payload?: {
+      limit?: number,
+      user?: User,
     },
   };
 
@@ -100,6 +134,7 @@ declare module "@findify/findify-helpers" {
   type SearchToggleNestedListFacetEvent = ResultsToggleNestedListFacetEvent;
   type SearchToggleTextFacetEvent = ResultsToggleTextFacetEvent;
   type SearchToggleRangeFacetEvent = ResultsToggleRangeFacetEvent;
+  type SearchRequestEvent = ResultsRequestEvent;
 
   type SearchEmitEvent = (
     SearchNextPageEvent |
@@ -109,6 +144,7 @@ declare module "@findify/findify-helpers" {
     SearchToggleNestedListFacetEvent |
     SearchToggleTextFacetEvent |
     SearchToggleRangeFacetEvent |
+    SearchRequestEvent
   );
   type SearchSubscribeEvent = (
     SearchEmitEvent |
@@ -118,7 +154,7 @@ declare module "@findify/findify-helpers" {
 
   type SearchSubscribeListener = (event: SearchSubscribeEvent) => void;
   type SearchStore = {
-    emit: (event: SearchEmitEvent) => SearchStore,
+    emit(event: SearchEmitEvent): SearchStore,
     subscribe(listener: SearchSubscribeListener): Unsubscribe,
     get(name: 'request'): SearchServerRequest,
     get(name: 'response'): SearchServerResponse,
