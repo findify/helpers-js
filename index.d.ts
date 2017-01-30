@@ -130,20 +130,28 @@ declare module "@findify/findify-helpers" {
   type SearchNextPageEvent = ResultsNextPageEvent;
   type SearchPrevPageEvent = ResultsPrevPageEvent;
   type SearchSetPageEvent = ResultsSetPageEvent;
-  type SearchChangeSortingEvent = ResultsChangeSortingEvent;
-  type SearchToggleNestedListFacetEvent = ResultsToggleNestedListFacetEvent;
-  type SearchToggleTextFacetEvent = ResultsToggleTextFacetEvent;
-  type SearchToggleRangeFacetEvent = ResultsToggleRangeFacetEvent;
+  type SearchSetSortingEvent = ResultsSetSortingEvent;
+  type SearchUnsetSortingEvent = ResultsUnsetSortingEvent;
+  type SearchSetNestedListFacetEvent = ResultsSetNestedListFacetEvent;
+  type SearchUnsetNestedListFacetEvent = ResultsUnsetNestedListFacetEvent;
+  type SearchSetTextFacetEvent = ResultsSetTextFacetEvent;
+  type SearchUnsetTextFacetEvent = ResultsUnsetTextFacetEvent;
+  type SearchSetRangeFacetEvent = ResultsSetRangeFacetEvent;
+  type SearchUnsetRangeFacetEvent = ResultsUnsetRangeFacetEvent;
   type SearchRequestEvent = ResultsRequestEvent;
 
   type SearchEmitEvent = (
     SearchNextPageEvent |
     SearchPrevPageEvent |
     SearchSetPageEvent |
-    SearchChangeSortingEvent |
-    SearchToggleNestedListFacetEvent |
-    SearchToggleTextFacetEvent |
-    SearchToggleRangeFacetEvent |
+    SearchSetSortingEvent |
+    SearchUnsetSortingEvent |
+    SearchSetNestedListFacetEvent |
+    SearchUnsetNestedListFacetEvent |
+    SearchSetTextFacetEvent |
+    SearchUnsetTextFacetEvent |
+    SearchSetRangeFacetEvent |
+    SearchUnsetRangeFacetEvent |
     SearchRequestEvent
   );
   type SearchSubscribeEvent = (
