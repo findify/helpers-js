@@ -1,4 +1,4 @@
-function createEvent<E>(name, payload?): E {
+function createEvent(name, payload?) {
   return !payload ? {
     name,
   } as any : {
