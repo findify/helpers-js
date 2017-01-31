@@ -70,16 +70,16 @@ function create(config: Config) {
 
           switch (action.type) {
             case actionTypes.INPUT:
-              listener(createEvent<InputEvent>(eventsNames.input, (action as InputAction).payload));
+              listener(createEvent(eventsNames.input, (action as InputAction).payload));
               break;
             case actionTypes.REQUEST:
-              listener(createEvent<RequestEvent>(eventsNames.request, (action as RequestAction).payload));
+              listener(createEvent(eventsNames.request, (action as RequestAction).payload));
               break;
             case actionTypes.RESPONSE_SUCCESS:
-              listener(createEvent<ResponseSuccessEvent>(eventsNames.responseSuccess));
+              listener(createEvent(eventsNames.responseSuccess));
               break;
             case actionTypes.RESPONSE_FAILURE:
-              listener(createEvent<ResponseFailureEvent>(eventsNames.responseFailure));
+              listener(createEvent(eventsNames.responseFailure));
               break;
           }
         });
