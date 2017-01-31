@@ -105,6 +105,7 @@ declare module "@findify/findify-helpers" {
   type ResultsSetRangeFacetEvent = {
     name: 'setRangeFacetEvent',
     payload: {
+      name: string,
       from?: number,
       to?: number,
     },
@@ -112,6 +113,7 @@ declare module "@findify/findify-helpers" {
   type ResultsUnsetRangeFacetEvent = {
     name: 'unsetRangeFacetEvent',
     payload: {
+      name: string,
       from?: number,
       to?: number,
     },
