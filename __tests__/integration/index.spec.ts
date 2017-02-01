@@ -168,7 +168,14 @@ values(specs).forEach((spec: any) => {
 
             fauxJax.on('request', (req) => {
               // use searchApi assertions if future
-              expect(JSON.parse(req.requestBody)).toContain(r.requestBody);
+              const wholeRequestBody = JSON.parse(req.requestBody);
+
+              if (typeof r.requestBody === 'function') {
+                r.requestBody(wholeRequestBody);
+              } else {
+                expect(wholeRequestBody).toContain(r.requestBody);
+              }
+
               done();
             });
 
