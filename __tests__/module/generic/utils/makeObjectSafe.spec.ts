@@ -1,14 +1,20 @@
 import * as expect from 'expect';
 
-import { cleanObject } from '../../../src/generic/utils/cleanObject';
+import { makeObjectSafe } from '../../../../src/generic/utils/makeObjectSafe';
 
-describe('utils cleanObject', () => {
+describe('utils makeObjectSafe', () => {
+  const obj = {
+    a: 'a',
+    b: 'b',
+  };
+
   const assertionsData = [{
     arg: {
       key: 'someValue',
       key2: 'someValue2',
       key3: undefined,
       key4: undefined,
+      key5: () => (obj as any).a.b.c.d.e,
     },
     expectingValue: {
       key: 'someValue',
@@ -18,10 +24,12 @@ describe('utils cleanObject', () => {
     arg: {
       key: 'someValue',
       key2: 'someValue2',
+      key3: () => obj.a,
     },
     expectingValue: {
       key: 'someValue',
       key2: 'someValue2',
+      key3: obj.a,
     },
   }, {
     arg: {
@@ -34,8 +42,8 @@ describe('utils cleanObject', () => {
   }];
 
   assertionsData.forEach((item) => {
-    it(`should filter "${JSON.stringify(item.arg)}" object from "undefined" properties`, () => {
-      expect(cleanObject(item.arg)).toEqual(item.expectingValue);
+    it(`should make object by given "${JSON.stringify(item.arg)}" constructor object`, () => {
+      expect(makeObjectSafe(item.arg)).toEqual(item.expectingValue);
     });
   });
 });

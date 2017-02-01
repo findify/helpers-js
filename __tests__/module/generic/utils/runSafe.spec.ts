@@ -1,6 +1,6 @@
 import * as expect from 'expect';
 
-import { runSafe } from '../../../src/generic/utils/runSafe';
+import { runSafe } from '../../../../src/generic/utils/runSafe';
 
 describe('utils runSafe', () => {
   it('should return function result if there is no errors', () => {

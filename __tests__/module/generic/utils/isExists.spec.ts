@@ -1,6 +1,6 @@
 import * as expect from 'expect';
 
-import { isExists } from '../../../src/generic/utils/isExists';
+import { isExists } from '../../../../src/generic/utils/isExists';
 
 describe('utils isExists', () => {
   const obj = {

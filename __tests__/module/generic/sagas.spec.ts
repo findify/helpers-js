@@ -3,7 +3,7 @@ import * as Promise from 'bluebird';
 import { delay } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
-import { makeCallApiSaga } from '../../src/generic/sagas';
+import { makeCallApiSaga } from '../../../src/generic/sagas';
 
 describe('generic sagas', () => {
   describe('makeCallApiSaga', () => {

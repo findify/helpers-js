@@ -2,10 +2,10 @@ import * as expect from 'expect';
 import * as deepFreeze from 'deep-freeze';
 import * as rewire from 'rewire';
 
-import { rootReducer } from '../../../../src/features/autocomplete/reducers';
-import { actionTypes } from '../../../../src/features/autocomplete/constants/actionTypes';
+import { rootReducer } from '../../../../../src/features/autocomplete/reducers';
+import { actionTypes } from '../../../../../src/features/autocomplete/constants/actionTypes';
 
-const reducers = rewire('../../../../src/features/autocomplete/reducers');
+const reducers = rewire('../../../../../src/features/autocomplete/reducers');
 
 const requestDataReducer = reducers.__get__('requestDataReducer');
 const responseDataReducer = reducers.__get__('responseDataReducer');

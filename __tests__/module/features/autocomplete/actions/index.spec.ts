@@ -1,6 +1,6 @@
 import * as expect from 'expect';
 
-import { actionTypes } from '../../../../src/features/autocomplete/constants/actionTypes';
+import { actionTypes } from '../../../../../src/features/autocomplete/constants/actionTypes';
 
 import {
   input,
@@ -8,7 +8,7 @@ import {
   requestTimeUpdate,
   responseSuccess,
   responseFailure,
-} from '../../../../src/features/autocomplete/actions';
+} from '../../../../../src/features/autocomplete/actions';
 
 describe('autocomplete actions', () => {
   it('should create INPUT action', () => {
