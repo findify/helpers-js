@@ -1,0 +1,53 @@
+import * as expect from 'expect';
+
+function names(successResponse) {
+  return [{
+    name: 'request',
+    events: [{
+      name: 'request',
+    }],
+    result: {
+      q: '',
+      offset: 0,
+      limit: 24,
+    },
+    successResponse,
+  }, {
+    name: 'request',
+    result: {
+      q: '',
+      offset: 0,
+      limit: 24,
+    },
+  }, {
+    name: 'response',
+    events: [{
+      name: 'request',
+    }],
+    result: successResponse,
+    successResponse,
+  }, {
+    name: 'response',
+    result: {},
+  }, {
+    name: 'responseMeta',
+    events: [{
+      name: 'request',
+    }],
+    result: function(result) {
+      expect(result.lastUpdated).toBeA('number');
+      expect(result.isFetching).toEqual(false);
+      expect(result.error).toEqual(undefined);
+    },
+    successResponse,
+  }, {
+    name: 'responseMeta',
+    result: {
+      isFetching: false,
+    },
+  }];
+}
+
+export {
+  names,
+}
