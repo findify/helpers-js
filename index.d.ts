@@ -129,6 +129,12 @@ declare module "@findify/findify-helpers" {
   type SearchServerRequest = FindifySDK.SearchRequest;
   type SearchServerResponse = FindifySDK.SearchResponse;
 
+  type SearchSearchEvent = {
+    name: 'search',
+    payload: {
+      query: string,
+    },
+  };
   type SearchNextPageEvent = ResultsNextPageEvent;
   type SearchPrevPageEvent = ResultsPrevPageEvent;
   type SearchSetPageEvent = ResultsSetPageEvent;
@@ -143,6 +149,7 @@ declare module "@findify/findify-helpers" {
   type SearchRequestEvent = ResultsRequestEvent;
 
   type SearchEmitEvent = (
+    SearchSearchEvent |
     SearchNextPageEvent |
     SearchPrevPageEvent |
     SearchSetPageEvent |
@@ -171,4 +178,50 @@ declare module "@findify/findify-helpers" {
   };
 
   function createSearch(config: Config): SearchStore;
+
+  type CollectionServerRequest = FindifySDK.CollectionRequest;
+  type CollectionServerResponse = FindifySDK.CollectionResponse;
+
+  type CollectionNextPageEvent = ResultsNextPageEvent;
+  type CollectionPrevPageEvent = ResultsPrevPageEvent;
+  type CollectionSetPageEvent = ResultsSetPageEvent;
+  type CollectionSetSortingEvent = ResultsSetSortingEvent;
+  type CollectionUnsetSortingEvent = ResultsUnsetSortingEvent;
+  type CollectionSetNestedListFacetEvent = ResultsSetNestedListFacetEvent;
+  type CollectionUnsetNestedListFacetEvent = ResultsUnsetNestedListFacetEvent;
+  type CollectionSetTextFacetEvent = ResultsSetTextFacetEvent;
+  type CollectionUnsetTextFacetEvent = ResultsUnsetTextFacetEvent;
+  type CollectionSetRangeFacetEvent = ResultsSetRangeFacetEvent;
+  type CollectionUnsetRangeFacetEvent = ResultsUnsetRangeFacetEvent;
+  type CollectionRequestEvent = ResultsRequestEvent;
+
+  type CollectionEmitEvent = (
+    CollectionNextPageEvent |
+    CollectionPrevPageEvent |
+    CollectionSetPageEvent |
+    CollectionSetSortingEvent |
+    CollectionUnsetSortingEvent |
+    CollectionSetNestedListFacetEvent |
+    CollectionUnsetNestedListFacetEvent |
+    CollectionSetTextFacetEvent |
+    CollectionUnsetTextFacetEvent |
+    CollectionSetRangeFacetEvent |
+    CollectionUnsetRangeFacetEvent |
+    CollectionRequestEvent
+  );
+  type CollectionSubscribeEvent = (
+    CollectionEmitEvent |
+    ResponseSuccessEvent |
+    ResponseFailureEvent
+  );
+
+  type CollectionSubscribeListener = (event: CollectionSubscribeEvent) => void;
+  type CollectionStore = {
+    emit(event: CollectionEmitEvent): CollectionStore,
+    subscribe(listener: CollectionSubscribeListener): Unsubscribe,
+    get(name: 'request'): CollectionServerRequest,
+    get(name: 'response'): CollectionServerResponse,
+  };
+
+  function createCollection(slot: string, config: Config): CollectionStore;
 }
