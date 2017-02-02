@@ -20,30 +20,22 @@ function names(successResponse) {
       limit: 24,
     },
   }, {
-    name: 'response',
+    name: 'request',
     events: [{
       name: 'request',
     }],
-    result: successResponse,
-    successResponse,
-  }, {
-    name: 'response',
-    result: {},
-  }, {
-    name: 'responseMeta',
-    events: [{
-      name: 'request',
-    }],
-    result: function(result) {
-      expect(result.lastUpdated).toBeA('number');
-      expect(result.isFetching).toEqual(false);
-      expect(result.error).toEqual(undefined);
+    result: {
+      q: '',
+      offset: 0,
+      limit: 24,
     },
     successResponse,
   }, {
-    name: 'responseMeta',
+    name: 'request',
     result: {
-      isFetching: false,
+      q: '',
+      offset: 0,
+      limit: 24,
     },
   }];
 }

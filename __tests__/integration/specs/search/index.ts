@@ -4,6 +4,10 @@ import * as emit from './emit';
 import * as get from './get';
 import * as subscribe from './subscribe';
 
+import * as resultsEmit from '../results/emit';
+import * as resultsGet from '../results/get';
+import * as resultsSubscribe from '../results/subscribe';
+
 const successResponse = {
   meta: {
     rid: 'testRid',
@@ -79,13 +83,25 @@ const searchSpec = {
     },
   },
   emit: {
-    validations: emit.validations(),
-    requests: emit.requests(),
+    validations: [
+      ...emit.validations(),
+      ...resultsEmit.validations(),
+    ],
+    requests: [
+      ...emit.requests(),
+      ...resultsEmit.requests(),
+    ],
   },
   subscribe: {
-    successEvents: subscribe.events(),
+    successEvents: [
+      ...subscribe.events(),
+      ...resultsSubscribe.events(),
+    ],
   },
-  get: get.names(successResponse),
+  get: [
+    ...get.names(successResponse),
+    ...resultsGet.names(successResponse),
+  ],
 };
 
 export {
