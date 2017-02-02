@@ -16,11 +16,6 @@ function events() {
       offset: 2,
     },
   }, {
-    name: 'search',
-    payload: {
-      query: 'test',
-    },
-  }, {
     name: 'nextPage',
   }, {
     name: 'prevPage',
