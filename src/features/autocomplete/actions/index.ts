@@ -10,6 +10,13 @@ function input(payload: InputPayload): InputAction {
   };
 }
 
+function setRequestBody(payload: SetRequestBodyPayload): SetRequestBodyAction {
+  return {
+    type: actionTypes.SET_REQUEST_BODY,
+    payload,
+  };
+}
+
 function request(payload: RequestPayload, sdk: FindifySDK.Client): RequestAction {
   return {
     type: actionTypes.REQUEST,
@@ -46,6 +53,11 @@ type InputAction = {
   payload: InputPayload,
 };
 
+type SetRequestBodyAction = {
+  type: string,
+  payload: SetRequestBodyPayload,
+};
+
 type RequestAction = {
   type: string,
   payload: RequestPayload,
@@ -73,6 +85,8 @@ type InputPayload = {
   query: string,
 };
 
+type SetRequestBodyPayload = FindifySDK.AutocompleteRequest;
+
 type RequestPayload = {
   itemsLimit?: number,
   suggestionsLimit?: number,
@@ -94,6 +108,7 @@ type ResponseFailurePayload = {
 
 type Action = (
   InputAction |
+  SetRequestBodyAction |
   RequestAction |
   RequestTimeUpdateAction |
   ResponseSuccessAction |
@@ -102,12 +117,14 @@ type Action = (
 
 export {
   input,
+  setRequestBody,
   request,
   requestTimeUpdate,
   responseSuccess,
   responseFailure,
   Action,
   InputAction,
+  SetRequestBodyAction,
   RequestAction,
   RequestTimeUpdateAction,
   ResponseSuccessAction,

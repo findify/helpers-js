@@ -6,6 +6,10 @@ type InputEvent = {
     query: string,
   },
 };
+type SetRequestBodyEvent = {
+  name: 'setRequestBody',
+  payload: FindifySDK.AutocompleteRequest,
+};
 type RequestEvent = {
   name: 'request',
   payload: {
@@ -18,4 +22,5 @@ type RequestEvent = {
 export {
   InputEvent,
   RequestEvent,
+  SetRequestBodyEvent,
 };

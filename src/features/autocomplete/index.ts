@@ -1,5 +1,6 @@
 import {
   InputEvent,
+  SetRequestBodyEvent,
   RequestEvent,
 } from './types';
 
@@ -13,8 +14,10 @@ import {
 
 import {
   input,
+  setRequestBody,
   request,
   InputAction,
+  SetRequestBodyAction,
   RequestAction,
 } from './actions';
 
@@ -57,6 +60,9 @@ function create(config: Config) {
           case eventsNames.input:
             reduxStore.dispatch(input((event as InputEvent).payload));
             break;
+          case eventsNames.setRequestBody:
+            reduxStore.dispatch(setRequestBody((event as SetRequestBodyEvent).payload));
+            break;
           case eventsNames.request:
             reduxStore.dispatch(request((event as RequestEvent).payload, sdk));
             break;
@@ -71,6 +77,9 @@ function create(config: Config) {
           switch (action.type) {
             case actionTypes.INPUT:
               listener(createEvent(eventsNames.input, (action as InputAction).payload));
+              break;
+            case actionTypes.SET_REQUEST_BODY:
+              listener(createEvent(eventsNames.setRequestBody, (action as SetRequestBodyAction).payload));
               break;
             case actionTypes.REQUEST:
               listener(createEvent(eventsNames.request, (action as RequestAction).payload));
@@ -99,6 +108,7 @@ function create(config: Config) {
 
 type EmitEvent = (
   InputEvent |
+  SetRequestBodyEvent |
   RequestEvent
 );
 

@@ -17,6 +17,7 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
       suggestion_limit: () => action.payload.suggestionsLimit,
       user: () => action.payload.user,
     }));
+    case actionTypes.SET_REQUEST_BODY: return assign({}, state, action.payload);
     default: return state;
   }
 }
