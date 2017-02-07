@@ -1,4 +1,5 @@
 import * as FindifySDK from 'findify-sdk';
+import * as get from 'lodash/get';
 
 import { RequestEvent } from './types';
 
@@ -51,7 +52,7 @@ function create(type: FindifySDK.RecommendationsType, config: Config) {
           case eventsNames.request:
             reduxStore.dispatch(request({
               request: event.payload,
-              user: event.payload.user,
+              user: get(event, 'payload.user') as any,
               type,
             }, sdk));
             break;
