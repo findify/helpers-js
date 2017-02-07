@@ -13,7 +13,9 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
       type: action.payload.type,
       request: action.payload.request,
     }));
-    case actionTypes.SET_REQUEST_BODY: return assign({}, state, action.payload);
+    case actionTypes.SET_REQUEST_BODY: return assign({}, state, {
+      request: action.payload,
+    });
     default: return state;
   }
 }
