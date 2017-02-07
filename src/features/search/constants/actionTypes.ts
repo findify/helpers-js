@@ -1,4 +1,5 @@
 const actionTypes = {
+  SET_REQUEST_BODY: 'results/SET_REQUEST_BODY',
   SEARCH: 'results/SEARCH',
   NEXT_PAGE: 'results/NEXT_PAGE',
   PREV_PAGE: 'results/PREV_PAGE',

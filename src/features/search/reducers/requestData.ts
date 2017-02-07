@@ -12,6 +12,7 @@ const initialState = {
 
 function reducer(state: State = initialState, action) {
   switch (action.type) {
+    case actionTypes.SET_REQUEST_BODY: return handleSetRequestBody(state, action.payload);
     case actionTypes.SEARCH: return handleSearch(state, action.payload);
     case actionTypes.NEXT_PAGE: return handleNextPage(state);
     case actionTypes.PREV_PAGE: return handlePrevPage(state);
@@ -27,6 +28,13 @@ function reducer(state: State = initialState, action) {
     case actionTypes.REQUEST: return handleRequest(state, action.payload);
     default: return state;
   }
+}
+
+function handleSetRequestBody(state, payload) {
+  return {
+    ...state,
+    ...payload,
+  };
 }
 
 function handleSearch(state, { query }) {

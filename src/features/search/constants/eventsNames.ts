@@ -1,4 +1,5 @@
 const eventsNames = {
+  setRequestBody: 'setRequestBody',
   search: 'search',
   setPage: 'setPage',
   nextPage: 'nextPage',

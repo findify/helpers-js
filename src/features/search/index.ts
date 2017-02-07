@@ -36,6 +36,9 @@ function create(config: Config) {
         validations.emit(event);
 
         switch (event.name) {
+          case eventsNames.setRequestBody:
+            reduxStore.dispatch(actions.setRequestBody(event.payload));
+            break;
           case eventsNames.search:
             reduxStore.dispatch(actions.search(event.payload));
             break;
@@ -85,6 +88,9 @@ function create(config: Config) {
           const action = getLastAction(reduxStore.getState());
 
           switch (action.type) {
+            case actionTypes.SET_REQUEST_BODY:
+              listener(createEvent(eventsNames.setRequestBody, action.payload));
+              break;
             case actionTypes.SEARCH:
               listener(createEvent(eventsNames.search, action.payload));
               break;
