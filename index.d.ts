@@ -21,6 +21,10 @@ declare module "@findify/findify-helpers" {
       query: string,
     },
   };
+  type AutocompleteSetRequestBodyEvent = {
+    name: 'setRequestBody',
+    payload: AutocompleteServerRequest,
+  };
   type AutocompleteRequestEvent = {
     name: 'request',
     payload?: {
@@ -135,6 +139,10 @@ declare module "@findify/findify-helpers" {
       query: string,
     },
   };
+  type SearchSetRequestBodyEvent = {
+    name: 'setRequestBody',
+    payload: SearchServerRequest,
+  };
   type SearchNextPageEvent = ResultsNextPageEvent;
   type SearchPrevPageEvent = ResultsPrevPageEvent;
   type SearchSetPageEvent = ResultsSetPageEvent;
@@ -182,6 +190,10 @@ declare module "@findify/findify-helpers" {
   type CollectionServerRequest = FindifySDK.CollectionRequest;
   type CollectionServerResponse = FindifySDK.CollectionResponse;
 
+  type CollectionSetRequestBodyEvent = {
+    name: 'setRequestBody',
+    payload: CollectionServerRequest,
+  };
   type CollectionNextPageEvent = ResultsNextPageEvent;
   type CollectionPrevPageEvent = ResultsPrevPageEvent;
   type CollectionSetPageEvent = ResultsSetPageEvent;
@@ -224,4 +236,33 @@ declare module "@findify/findify-helpers" {
   };
 
   function createCollection(slot: string, config: Config): CollectionStore;
+
+  type RecommendationServerRequest = FindifySDK.RecommendationsRequest;
+  type RecommendationServerResponse = FindifySDK.RecommendationsResponse;
+
+  type RecommendationSetRequestBodyEvent = {
+    name: 'setRequestBody',
+    payload: RecommendationServerRequest,
+  };
+  type RecommendationRequestEvent = RecommendationServerRequest;
+  type RecommendationEmitEvent = (
+    RecommendationRequestEvent
+  );
+  type RecommendationSubscribeEvent = (
+    RecommendationEmitEvent |
+    ResponseSuccessEvent |
+    ResponseFailureEvent
+  );
+
+  type RecommendationsType = FindifySDK.RecommendationsType;
+
+  type RecommendationSubscribeListener = (event: RecommendationSubscribeEvent) => void;
+  type RecommendationStore = {
+    emit(event: RecommendationEmitEvent): RecommendationStore,
+    subscribe(listener: RecommendationSubscribeListener): Unsubscribe,
+    get(name: 'request'): RecommendationServerRequest,
+    get(name: 'response'): RecommendationServerResponse,
+  };
+
+  function createRecommendation(type: RecommendationsType, config: Config): RecommendationStore;
 }
