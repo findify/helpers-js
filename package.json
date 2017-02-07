@@ -1,5 +1,5 @@
 {
-  "name": "@findify/findify-helpers",
+  "name": "findify-helpers",
   "version": "0.1.27",
   "description": "",
   "main": "lib/index.js",
