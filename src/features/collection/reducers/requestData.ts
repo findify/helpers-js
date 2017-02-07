@@ -5,7 +5,6 @@ import { makeObjectSafe } from '../../../generic/utils/makeObjectSafe';
 import { cleanObject } from '../../../generic/utils/cleanObject';
 
 const initialState = {
-  q: '',
   limit: 24,
   offset: 0,
 };
