@@ -1,3 +1,4 @@
+import * as get from 'lodash/get';
 import { takeLatest, delay } from 'redux-saga';
 import { call, select, put } from 'redux-saga/effects';
 
@@ -20,7 +21,7 @@ function* requestSaga() {
 
     yield* callApiSaga(() => sdk.recommendations(action.payload.type, cleanObject({
       ...requestData.request,
-      user: requestData.user,
+      user: get(requestData, 'user'),
     })));
   });
 }
