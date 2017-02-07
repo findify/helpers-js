@@ -39,6 +39,9 @@ function create(slot: string, config: Config) {
         validations.emit(event);
 
         switch (event.name) {
+          case eventsNames.setRequestBody:
+            reduxStore.dispatch(actions.setRequestBody(event.payload));
+            break;
           case eventsNames.nextPage:
             reduxStore.dispatch(actions.nextPage());
             break;
@@ -85,6 +88,9 @@ function create(slot: string, config: Config) {
           const action = getLastAction(reduxStore.getState());
 
           switch (action.type) {
+            case actionTypes.SET_REQUEST_BODY:
+              listener(createEvent(eventsNames.setRequestBody));
+              break;
             case actionTypes.NEXT_PAGE:
               listener(createEvent(eventsNames.nextPage));
               break;

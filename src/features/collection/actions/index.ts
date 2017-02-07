@@ -2,6 +2,13 @@ import * as FindifySDK from 'findify-sdk';
 
 import { actionTypes } from '../constants/actionTypes';
 
+function setRequestBody(payload: SetRequestBodyPayload) {
+  return {
+    type: actionTypes.SET_REQUEST_BODY,
+    payload,
+  };
+}
+
 function request(payload: RequestPayload, sdk: FindifySDK.Client) {
   return {
     type: actionTypes.REQUEST,
@@ -101,6 +108,8 @@ function responseFailure(payload: ResponseFailurePayload) {
   };
 }
 
+type SetRequestBodyPayload = FindifySDK.CollectionRequest;
+
 type SearchPayload = {
   query: string,
 };
@@ -142,6 +151,7 @@ type ResponseFailurePayload = {
 };
 
 export {
+  setRequestBody,
   request,
   nextPage,
   prevPage,
