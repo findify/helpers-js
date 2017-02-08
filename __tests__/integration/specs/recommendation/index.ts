@@ -34,9 +34,9 @@ const predefinedRecommendationSpec = {
       },
     },
     validEvent: {
-      name: 'request',
+      name: 'setRequestBody',
       payload: {
-        slot: 'testSlot',
+        limit: 10,
       },
     },
   },
