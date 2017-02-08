@@ -62,7 +62,7 @@ function names(successResponse) {
     }, {
       name: 'request',
     }],
-    result: function(result) {
+    result(result) {
       expect(result.lastUpdated).toBeA('number');
       expect(result.isFetching).toEqual(false);
       expect(result.error).toEqual(undefined);

@@ -415,7 +415,7 @@ function requests() {
     }, {
       name: 'request',
     }],
-    requestBody: function(body) {
+    requestBody(body) {
       expect(body.filters).toNotExist();
     },
   }];
@@ -529,7 +529,7 @@ function requests() {
     }, {
       name: 'request',
     }],
-    requestBody: function(body) {
+    requestBody(body) {
       expect(body.sort).toNotExist();
     },
   }];
@@ -539,7 +539,7 @@ function requests() {
       name: 'setTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'request',
@@ -560,25 +560,25 @@ function requests() {
       name: 'setTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'setTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue2'
+        value: 'someValue2',
       },
     }, {
       name: 'setTextFacet',
       payload: {
         name: 'test2',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'setTextFacet',
       payload: {
         name: 'test2',
-        value: 'someValue2'
+        value: 'someValue2',
       },
     }, {
       name: 'request',
@@ -611,12 +611,12 @@ function requests() {
       name: 'unsetTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'request',
     }],
-    requestBody: function(body) {
+    requestBody(body) {
       expect(body.filters).toNotExist();
       expect(body).toContain({
         offset: 0,
@@ -634,7 +634,7 @@ function requests() {
       name: 'setTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue2'
+        value: 'someValue2',
       },
     }, {
       name: 'setTextFacet',
@@ -652,7 +652,7 @@ function requests() {
       name: 'unsetTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'request',
@@ -681,18 +681,18 @@ function requests() {
       name: 'setTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'unsetTextFacet',
       payload: {
         name: 'test',
-        value: 'someValue'
+        value: 'someValue',
       },
     }, {
       name: 'request',
     }],
-    requestBody: function(body) {
+    requestBody(body) {
       expect(body.filters).toNotExist();
     },
   }];
@@ -851,7 +851,7 @@ function requests() {
     }, {
       name: 'request',
     }],
-    requestBody: function(body) {
+    requestBody(body) {
       expect(body.filters).toNotExist();
     },
   }];

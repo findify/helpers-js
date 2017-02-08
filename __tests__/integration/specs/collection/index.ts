@@ -52,7 +52,7 @@ const successResponse = {
 };
 
 const collectionSpec = {
-  createStore: function(args) {
+  createStore(args) {
     return createCollection('testCollection', args);
   },
   name: 'createCollection',

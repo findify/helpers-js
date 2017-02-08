@@ -11,8 +11,6 @@ const user = {
   sid: 'testSessionId',
 };
 
-function assertSearchApi() {}
-
 values(specs).forEach((spec: any) => {
   describe(spec.name, () => {
     beforeEach(() => {
@@ -96,7 +94,7 @@ values(specs).forEach((spec: any) => {
           // test user overriding case
 
           expect(() => store.emit(spec.events.validEvent).emit(
-            extendRequestEvent(spec.events.requestEvent, { user })
+            extendRequestEvent(spec.events.requestEvent, { user }),
           )).toNotThrow();
         });
 
@@ -108,7 +106,7 @@ values(specs).forEach((spec: any) => {
               user: {
                 sid: 'testSessionId',
               },
-            })
+            }),
           )).toThrow(/"user.uid" param is required/);
         });
 
@@ -120,15 +118,16 @@ values(specs).forEach((spec: any) => {
               user: {
                 uid: 'testUserId',
               },
-            })
+            }),
           )).toThrow(/"user.sid" param is required/);
         });
 
-        it('should throw an Error if "user" param is not provided neither at configuration nor at "request" event', () => {
+        it(`should throw an Error if "user" param is not provided
+          neither at configuration nor at "request" event`, () => {
           const store = spec.createStore({ key });
 
           expect(() => store.emit(spec.events.validEvent).emit(spec.events.requestEvent)).toThrow(
-            /`user` param should be provided either at request or at library config/
+            /`user` param should be provided either at request or at library config/,
           );
         });
 

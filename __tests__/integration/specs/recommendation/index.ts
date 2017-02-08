@@ -18,7 +18,7 @@ const successResponse = {
 };
 
 const predefinedRecommendationSpec = {
-  createStore: function(args) {
+  createStore(args) {
     return createRecommendation('predefined', args);
   },
   name: 'createRecommendation',

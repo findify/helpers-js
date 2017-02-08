@@ -63,7 +63,7 @@ const successResponse = {
 };
 
 const searchSpec = {
-  createStore: function(args) {
+  createStore(args) {
     return createSearch(args);
   },
   name: 'createSearch',

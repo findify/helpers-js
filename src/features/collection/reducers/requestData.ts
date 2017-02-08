@@ -135,7 +135,7 @@ function handleSetTextFacet(state, { name, value }) {
         f
       )
     )),
-  }
+  };
 }
 
 function handleUnsetTextFacet(state, { name, value }) {
@@ -180,7 +180,7 @@ function handleSetRangeFacet(state, { name, from, to }) {
     filters: !isItemExists ? [...filters, item] : filters.map((f) => (
       isNeededFilter(f) ? ({
         ...f,
-        values: [...(f.values || []), { from, to }]
+        values: [...(f.values || []), { from, to }],
       }) : (
         f
       )

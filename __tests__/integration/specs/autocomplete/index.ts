@@ -39,7 +39,7 @@ const emittingEvents = [{
 }];
 
 const autocompleteSpec = {
-  createStore: function(args) {
+  createStore(args) {
     return createAutocomplete(args);
   },
   name: 'createAutocomplete',
