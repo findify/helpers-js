@@ -1,8 +1,10 @@
 'use strict';
 
 var webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
 
 var env = process.env.NODE_ENV;
+
 var config = {
   module: {
     loaders: [{
@@ -30,6 +32,8 @@ if (env === 'production') {
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin()
   );
+
+  config.externals = [nodeExternals()];
 }
 
 module.exports = config;

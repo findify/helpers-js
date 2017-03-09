@@ -1,30 +1,14 @@
 {
   "name": "findify-helpers",
   "version": "0.1.29",
-  "description": "",
-  "main": "lib/index.js",
-  "scripts": {
-    "clean": "rimraf ./lib ./dist",
-    "lint": "tslint --project .",
-    "check": "npm run test && npm run build && npm run lint && npm run clean",
-    "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__",
-    "build:commonjs": "tsc --project . && babel ./__lib-es6__ --out-dir ./lib && rimraf ./__lib-es6__",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.ts dist/findify-helpers.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.ts dist/findify-helpers.min.js",
-    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
-    "prepublish": "npm run build",
-    "postpublish": "npm run clean",
-    "preversion": "npm run check && git checkout master && git merge develop",
-    "postversion": "git push && git push --tags && git checkout develop && git merge master && git push && npm publish"
-  },
   "author": "1ven",
-  "license": "ISC",
-  "files": [
-    "dist",
-    "lib",
-    "index.d.ts"
-  ],
   "dependencies": {
+    "findify-sdk": "^1.3.6",
+    "lodash": "^4.17.3",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.14.0"
+  },
+  "devDependencies": {
     "@types/deep-freeze": "^0.0.29",
     "@types/expect": "^1.13.31",
     "@types/lodash": "4.14.30",
@@ -42,18 +26,35 @@
     "deep-freeze": "^0.0.1",
     "expect": "^1.20.2",
     "faux-jax": "^5.0.6",
-    "findify-sdk": "^1.3.6",
-    "lodash": "^4.17.3",
     "mocha": "^3.2.0",
-    "redux": "^3.6.0",
     "redux-mock-store": "^1.2.1",
-    "redux-saga": "^0.14.0",
     "rewire": "^2.5.2",
     "rimraf": "^2.5.4",
     "ts-loader": "^1.3.3",
     "ts-node": "^1.7.3",
     "tslint": "^4.4.2",
     "typescript": "^2.1.4",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "index.d.ts"
+  ],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "build:commonjs": "tsc --project . && babel ./__lib-es6__ --out-dir ./lib && rimraf ./__lib-es6__",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.ts dist/findify-helpers.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.ts dist/findify-helpers.min.js",
+    "check": "npm run test && npm run build && npm run lint && npm run clean",
+    "clean": "rimraf ./lib ./dist",
+    "lint": "tslint --project .",
+    "postpublish": "npm run clean",
+    "postversion": "git push && git push --tags && git checkout develop && git merge master && git push && npm publish",
+    "preversion": "npm run check && git checkout master && git merge develop",
+    "test": "mocha --compilers ts:ts-node/register --recursive -R min  ./__tests__"
   }
 }

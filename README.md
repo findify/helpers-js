@@ -9,11 +9,11 @@ yarn add findify-helpers
 ```
 Alternatively, you can use UMD builds, by requiring them to the page using `<script>` tag:
 ```
-link to minified UMD build
+https://s3.amazonaws.com/findify-assets/helpers-js/findify-helpers.0.1.29.min.js
 ```
 or using unminified version:
 ```
-link to unminified UMD build
+https://s3.amazonaws.com/findify-assets/helpers-js/findify-helpers.0.1.29.js
 ```
 
 ## Usage example
