@@ -107,7 +107,7 @@ function handleSetNestedListFacet(state, { name, value }) {
 function handleUnsetNestedListFacet(state, { name }) {
   const nextState = {
     ...state,
-    filters: (state.filters || []).filter((f) => f.type === 'category' && f.name !== name),
+    filters: (state.filters || []).filter((f) => !(f.type === 'category' && f.name === name)),
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
