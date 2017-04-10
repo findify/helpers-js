@@ -32,14 +32,14 @@ function reducer(state: State = initialState, action) {
 
 function handleSetRequestBody(state, payload) {
   return {
-    ...state,
+    ...initialState,
     ...payload,
   };
 }
 
 function handleSearch(state, { query }) {
   return {
-    ...state,
+    ...initialState,
     q: query,
   };
 }
