@@ -75,6 +75,7 @@ function handleSetSorting(state, { field, order }) {
     sort: !isItemExists ? [...sort, item] : sort.map((el) => (
       el.field === field ? item : el
     )),
+    offset: 0,
   };
 }
 
@@ -84,6 +85,7 @@ function handleUnsetSorting(state, { field }) {
   return !sort.length ? omit(state, ['sort']) : ({
     ...state,
     sort,
+    offset: 0,
   });
 }
 
@@ -94,6 +96,7 @@ function handleSetNestedListFacet(state, { name, value }) {
     type: 'category',
     name,
     values: [{ value }],
+    offset: 0,
   };
 
   return {
@@ -108,6 +111,7 @@ function handleUnsetNestedListFacet(state, { name }) {
   const nextState = {
     ...state,
     filters: (state.filters || []).filter((f) => !(f.type === 'category' && f.name === name)),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
@@ -137,6 +141,7 @@ function handleSetTextFacet(state, { name, value }) {
         f
       )
     )),
+    offset: 0,
   };
 }
 
@@ -155,6 +160,7 @@ function handleUnsetTextFacet(state, { name, value }) {
     )).filter((el) => (
       el.values && el.values.length
     )),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
@@ -187,6 +193,7 @@ function handleSetRangeFacet(state, { name, from, to }) {
         f
       )
     )),
+    offset: 0,
   };
 }
 
@@ -205,6 +212,7 @@ function handleUnsetRangeFacet(state, { name, from, to }) {
     )).filter((el) => (
       el.values && el.values.length
     )),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
