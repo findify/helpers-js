@@ -36,8 +36,8 @@ describe('autocomplete actions', () => {
     }, sdkInstance)).toEqual({
       type: actionTypes.REQUEST,
       payload: {
-        item_limit,
-        suggestion_limit,
+        item_limit: itemLimit,
+        suggestion_limit: suggestionLimit,
         user,
       },
       service: {
