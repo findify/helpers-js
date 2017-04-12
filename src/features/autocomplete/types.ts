@@ -13,8 +13,8 @@ type SetRequestBodyEvent = {
 type RequestEvent = {
   name: 'request',
   payload: {
-    itemsLimit?: number,
-    suggestionsLimit?: number,
+    itemLimit?: number,
+    suggestionLimit?: number,
     user?: FindifySDK.User,
   },
 };

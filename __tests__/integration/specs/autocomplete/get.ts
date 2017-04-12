@@ -11,8 +11,8 @@ function names(successResponse) {
     }, {
       name: 'request',
       payload: {
-        itemsLimit: 1,
-        suggestionsLimit: 5,
+        itemLimit: 1,
+        suggestionLimit: 5,
         user: {
           uid: 'testUserId',
           sid: 'testSessionId',

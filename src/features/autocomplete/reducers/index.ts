@@ -13,8 +13,8 @@ function requestDataReducer(state: RequestDataState = initialRequestDataState, a
       q: action.payload.query,
     });
     case actionTypes.REQUEST: return assign({}, state, makeObjectSafe({
-      item_limit: () => action.payload.itemsLimit,
-      suggestion_limit: () => action.payload.suggestionsLimit,
+      item_limit: () => action.payload.itemLimit,
+      suggestion_limit: () => action.payload.suggestionLimit,
       user: () => action.payload.user,
     }));
     case actionTypes.SET_REQUEST_BODY: return assign({}, state, action.payload);

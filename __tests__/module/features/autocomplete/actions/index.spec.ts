@@ -22,22 +22,22 @@ describe('autocomplete actions', () => {
   });
 
   it('should create REQUEST action', () => {
-    const itemsLimit = 1;
-    const suggestionsLimit = 2;
+    const itemLimit = 1;
+    const suggestionLimit = 2;
     const user = {
       key: 'someValue',
     };
     const sdkInstance: any = 'sdk';
 
     expect(request({
-      itemsLimit,
-      suggestionsLimit,
+      itemLimit,
+      suggestionLimit,
       user: user as any,
     }, sdkInstance)).toEqual({
       type: actionTypes.REQUEST,
       payload: {
-        itemsLimit,
-        suggestionsLimit,
+        itemLimit,
+        suggestionLimit,
         user,
       },
       service: {

@@ -12,8 +12,8 @@ function events() {
   }, {
     name: 'request',
     payload: {
-      itemsLimit: 1,
-      suggestionsLimit: 2,
+      itemLimit: 1,
+      suggestionLimit: 2,
     },
   }, {
     name: 'input',
