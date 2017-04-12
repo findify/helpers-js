@@ -96,7 +96,6 @@ function handleSetNestedListFacet(state, { name, value }) {
     type: 'category',
     name,
     values: [{ value }],
-    offset: 0,
   };
 
   return {
@@ -104,6 +103,7 @@ function handleSetNestedListFacet(state, { name, value }) {
     filters: !isItemExists ? [...filters, item] : filters.map((f) => (
       f.name === name && f.type === 'category' ? item : f
     )),
+    offset: 0,
   };
 }
 
