@@ -33,8 +33,8 @@ const emittingEvents = [{
 }, {
   name: 'request',
   payload: {
-    itemLimit: 1,
-    suggestionLimit: 1,
+    item_limit: 1,
+    suggestion_limit: 1,
   },
 }];
 

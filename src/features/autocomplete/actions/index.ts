@@ -88,8 +88,8 @@ type InputPayload = {
 type SetRequestBodyPayload = FindifySDK.AutocompleteRequest;
 
 type RequestPayload = {
-  itemLimit?: number,
-  suggestionLimit?: number,
+  item_limit?: number,
+  suggestion_limit?: number,
   user?: FindifySDK.User,
 };
 
