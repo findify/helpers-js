@@ -11,6 +11,7 @@ const initialState = {
 
 function reducer(state: State = initialState, action) {
   switch (action.type) {
+    case actionTypes.CLEAR_ALL_FILTERS: return handleClearAllFilters(state);
     case actionTypes.SET_REQUEST_BODY: return handleSetRequestBody(state, action.payload);
     case actionTypes.NEXT_PAGE: return handleNextPage(state);
     case actionTypes.PREV_PAGE: return handlePrevPage(state);
@@ -26,6 +27,10 @@ function reducer(state: State = initialState, action) {
     case actionTypes.REQUEST: return handleRequest(state, action.payload);
     default: return state;
   }
+}
+
+function handleClearAllFilters(state) {
+  return omit(state, ['filters']);
 }
 
 function handleSetRequestBody(state, payload) {

@@ -2,6 +2,12 @@ import * as FindifySDK from 'findify-sdk';
 
 import { actionTypes } from '../constants/actionTypes';
 
+function clearAllFilters() {
+  return {
+    type: actionTypes.CLEAR_ALL_FILTERS,
+  };
+}
+
 function setRequestBody(payload: SetRequestBodyPayload) {
   return {
     type: actionTypes.SET_REQUEST_BODY,
@@ -158,6 +164,7 @@ type ResponseFailurePayload = {
 };
 
 export {
+  clearAllFilters,
   setRequestBody,
   search,
   request,
