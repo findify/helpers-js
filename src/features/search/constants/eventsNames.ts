@@ -1,4 +1,5 @@
 const eventsNames = {
+  clearAllFilters: 'clearAllFilters',
   setRequestBody: 'setRequestBody',
   search: 'search',
   setPage: 'setPage',

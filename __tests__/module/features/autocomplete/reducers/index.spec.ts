@@ -50,8 +50,8 @@ describe('autocomplete reducers', () => {
 
     it('should handle REQUEST with optional params in payload', () => {
       const payload = {
-        itemsLimit: 1,
-        suggestionsLimit: 4,
+        item_limit: 1,
+        suggestion_limit: 4,
         user: {
           uid: 1,
           sid: 3,
@@ -62,8 +62,8 @@ describe('autocomplete reducers', () => {
         type: actionTypes.REQUEST,
         payload,
       })).toEqual({
-        item_limit: payload.itemsLimit,
-        suggestion_limit: payload.suggestionsLimit,
+        item_limit: payload.item_limit,
+        suggestion_limit: payload.suggestion_limit,
         user: payload.user,
       });
     });

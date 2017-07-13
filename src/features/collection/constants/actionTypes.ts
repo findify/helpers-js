@@ -1,4 +1,5 @@
 const actionTypes = {
+  CLEAR_ALL_FILTERS: 'results/CLEAR_ALL_FILTERS',
   SET_REQUEST_BODY: 'results/SET_REQUEST_BODY',
   NEXT_PAGE: 'results/NEXT_PAGE',
   PREV_PAGE: 'results/PREV_PAGE',

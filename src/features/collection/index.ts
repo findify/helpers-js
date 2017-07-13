@@ -39,6 +39,9 @@ function create(slot: string, config: Config) {
         validations.emit(event);
 
         switch (event.name) {
+          case eventsNames.clearAllFilters:
+            reduxStore.dispatch(actions.clearAllFilters());
+            break;
           case eventsNames.setRequestBody:
             reduxStore.dispatch(actions.setRequestBody(event.payload));
             break;

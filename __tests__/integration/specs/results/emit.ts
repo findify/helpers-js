@@ -140,6 +140,31 @@ function validations() {
 }
 
 function requests() {
+  const clearAllFilters = () => [{
+    events: [{
+      name: 'setNestedListFacet',
+      payload: {
+        name: 'categories1',
+        value: 'food',
+      },
+    }, {
+      name: 'setTextFacet',
+      payload: {
+        name: 'test',
+        value: 'someValue',
+      },
+    }, {
+      name: 'clearAllFilters',
+    }, {
+      name: 'request',
+    }],
+    requestBody: {
+      limit: 24,
+      offset: 0,
+      filters: undefined,
+    },
+  }];
+
   const request = () => [{
     events: [{
       name: 'request',
@@ -857,6 +882,7 @@ function requests() {
   }];
 
   return [
+    ...clearAllFilters(),
     ...request(),
     ...setPage(),
     ...nextPage(),

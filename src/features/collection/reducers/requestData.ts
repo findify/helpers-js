@@ -11,6 +11,7 @@ const initialState = {
 
 function reducer(state: State = initialState, action) {
   switch (action.type) {
+    case actionTypes.CLEAR_ALL_FILTERS: return handleClearAllFilters(state);
     case actionTypes.SET_REQUEST_BODY: return handleSetRequestBody(state, action.payload);
     case actionTypes.NEXT_PAGE: return handleNextPage(state);
     case actionTypes.PREV_PAGE: return handlePrevPage(state);
@@ -28,16 +29,20 @@ function reducer(state: State = initialState, action) {
   }
 }
 
+function handleClearAllFilters(state) {
+  return omit(state, ['filters']);
+}
+
 function handleSetRequestBody(state, payload) {
   return {
-    ...state,
+    ...initialState,
     ...payload,
   };
 }
 
 function handleSearch(state, { query }) {
   return {
-    ...state,
+    ...initialState,
     q: query,
   };
 }
@@ -73,6 +78,7 @@ function handleSetSorting(state, { field, order }) {
     sort: !isItemExists ? [...sort, item] : sort.map((el) => (
       el.field === field ? item : el
     )),
+    offset: 0,
   };
 }
 
@@ -82,6 +88,7 @@ function handleUnsetSorting(state, { field }) {
   return !sort.length ? omit(state, ['sort']) : ({
     ...state,
     sort,
+    offset: 0,
   });
 }
 
@@ -99,13 +106,15 @@ function handleSetNestedListFacet(state, { name, value }) {
     filters: !isItemExists ? [...filters, item] : filters.map((f) => (
       f.name === name && f.type === 'category' ? item : f
     )),
+    offset: 0,
   };
 }
 
 function handleUnsetNestedListFacet(state, { name }) {
   const nextState = {
     ...state,
-    filters: (state.filters || []).filter((f) => f.type === 'category' && f.name !== name),
+    filters: (state.filters || []).filter((f) => !(f.type === 'category' && f.name === name)),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
@@ -135,6 +144,7 @@ function handleSetTextFacet(state, { name, value }) {
         f
       )
     )),
+    offset: 0,
   };
 }
 
@@ -153,6 +163,7 @@ function handleUnsetTextFacet(state, { name, value }) {
     )).filter((el) => (
       el.values && el.values.length
     )),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
@@ -185,6 +196,7 @@ function handleSetRangeFacet(state, { name, from, to }) {
         f
       )
     )),
+    offset: 0,
   };
 }
 
@@ -203,6 +215,7 @@ function handleUnsetRangeFacet(state, { name, from, to }) {
     )).filter((el) => (
       el.values && el.values.length
     )),
+    offset: 0,
   };
 
   return !nextState.filters.length ? omit(nextState, ['filters']) : nextState;
