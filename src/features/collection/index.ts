@@ -1,5 +1,5 @@
-import * as omit from 'lodash/omit';
-import * as isEmpty from 'lodash/isEmpty';
+import omit = require('lodash/omit');
+import isEmpty = require('lodash/isEmpty');
 
 import {
   Config,

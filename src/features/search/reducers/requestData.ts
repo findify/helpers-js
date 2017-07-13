@@ -1,4 +1,4 @@
-import * as omit from 'lodash/omit';
+import omit = require('lodash/omit');
 
 import { actionTypes } from '../constants/actionTypes';
 import { makeObjectSafe } from '../../../generic/utils/makeObjectSafe';

@@ -1,4 +1,4 @@
-import * as has from 'lodash/has';
+import has = require('lodash/has');
 
 import { eventsNames } from './constants/eventsNames';
 

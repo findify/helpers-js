@@ -1,4 +1,4 @@
-import * as mapValues from 'lodash/mapValues';
+import mapValues = require('lodash/mapValues');
 
 import { cleanObject } from './cleanObject';
 import { runSafe, InputFunction as RunSafeInputFunction } from './runSafe';

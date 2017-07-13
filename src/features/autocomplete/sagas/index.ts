@@ -15,7 +15,7 @@ const callApiSaga = makeCallApiSaga(responseSuccess, responseFailure);
 
 function* requestSaga() {
   yield takeLatest(actionTypes.REQUEST, function*(action) {
-    const sdk = (action as RequestAction).service.sdk;
+    const sdk = (action as any).service.sdk;
     const requestData = yield select(getRequestData);
 
     yield* callApiSaga(() => sdk.autocomplete(requestData));

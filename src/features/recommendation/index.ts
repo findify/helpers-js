@@ -1,5 +1,5 @@
 import * as FindifySDK from 'findify-sdk';
-import * as get from 'lodash/get';
+import get = require('lodash/get');
 
 import { RequestEvent } from './types';
 

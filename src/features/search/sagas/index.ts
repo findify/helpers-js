@@ -13,7 +13,7 @@ import {
 const callApiSaga = makeCallApiSaga(responseSuccess, responseFailure);
 
 function* requestSaga() {
-  yield takeLatest(actionTypes.REQUEST, function*(action) {
+  yield takeLatest(actionTypes.REQUEST, function*(action: any) {
     const requestData = yield select(getRequestData);
 
     yield* callApiSaga(() => action.service.sdk.search(requestData));

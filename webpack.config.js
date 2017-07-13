@@ -6,10 +6,16 @@ var nodeExternals = require('webpack-node-externals');
 var env = process.env.NODE_ENV;
 
 var config = {
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.ts$/,
-      loader: 'babel-loader!ts-loader',
+      use: [
+        'babel-loader',
+        'ts-loader',
+      ]
     }],
   },
   output: {
@@ -17,15 +23,11 @@ var config = {
     libraryTarget: 'umd',
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env),
       'process.env.FINDIFY_ENV': JSON.stringify('production'),
     }),
   ],
-  resolve: {
-    extensions: ['', '.ts', '.js'],
-  },
 };
 
 if (env === 'production') {

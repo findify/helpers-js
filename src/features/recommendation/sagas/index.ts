@@ -1,4 +1,4 @@
-import * as get from 'lodash/get';
+import get = require('lodash/get');
 import { takeLatest, delay } from 'redux-saga';
 import { call, select, put } from 'redux-saga/effects';
 
@@ -15,7 +15,7 @@ import {
 const callApiSaga = makeCallApiSaga(responseSuccess, responseFailure);
 
 function* requestSaga() {
-  yield takeLatest(actionTypes.REQUEST, function*(action) {
+  yield takeLatest(actionTypes.REQUEST, function*(action: any) {
     const sdk = action.service.sdk;
     const requestData = yield select(getRequestData);
 

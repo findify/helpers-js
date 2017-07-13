@@ -1,5 +1,5 @@
-import * as reduce from 'lodash/reduce';
-import * as assign from 'lodash/assign';
+import reduce = require('lodash/reduce');
+import assign = require('lodash/assign');
 
 function cleanObject(obj: InputObject) {
   return reduce(obj, (acc: InputObject, value: any, key: string) => (
