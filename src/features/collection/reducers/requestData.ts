@@ -146,7 +146,7 @@ function handleUnsetTextFacet(state, { name, value }) {
     filters: filters.map((el) => (
       el.name === name && el.type === 'text' ? ({
         ...el,
-        values: el.values.filter((v) => !(v.value === value)),
+        values: el.values.filter((v) => !(String(v.value) === value)),
       }) : (
         el
       )
