@@ -1,8 +1,8 @@
 import * as expect from 'expect';
 import * as fauxJax from 'faux-jax';
-import * as keys from 'lodash/keys';
-import * as values from 'lodash/values';
-import * as times from 'lodash/times';
+import keys = require('lodash/keys');
+import values = require('lodash/values');
+import times = require('lodash/times');
 import * as specs from './specs';
 
 const key = 'testKey';
